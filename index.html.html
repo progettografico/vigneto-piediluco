@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Vigneto Piediluco</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+:root {
+  --bg:        #eeedf6;
+  --surface:   #ffffff;
+  --surface2:  #f5f4fc;
+  --border:    rgba(100,90,180,0.10);
+  --text:      #1a1830;
+  --text-mid:  #6b6880;
+  --text-dim:  #a8a5be;
+
+  /* Palette dall'immagine */
+  --violet:    #6c4ef2;
+  --violet-lt: #ede9ff;
+  --violet-md: rgba(108,78,242,0.12);
+  --orange:    #f5a623;
+  --orange-lt: #fff4e0;
+  --orange-md: rgba(245,166,35,0.15);
+  --pink:      #f06292;
+  --pink-lt:   #ffeef4;
+  --green:     #43c98c;
+  --green-lt:  #e6faf3;
+  --red:       #f05252;
+  --red-lt:    #fff0f0;
+
+  --radius:    18px;
+  --radius-sm: 12px;
+  --nav-h:     76px;
+  --safe-b:    env(safe-area-inset-bottom, 0px);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+/* ── PAGES ── */
+.page { display: none; padding: 0 16px calc(var(--nav-h) + var(--safe-b) + 16px); padding-top: 0; }
+.page.active { display: block; }
+
+/* ── TOP HEADER ── */
+.top-bar {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--bg);
+  padding: 54px 20px 12px;
+}
+.top-bar h1 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 26px; font-weight: 900;
+  color: var(--text); line-height: 1.1;
+}
+.top-bar p { font-size: 12px; color: var(--text-dim); margin-top: 2px; letter-spacing: 0.04em; }
+
+/* ── BOTTOM NAV ── */
+.bot-nav {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding-bottom: var(--safe-b);
+  display: flex;
+  box-shadow: 0 -8px 32px rgba(80,60,180,0.08);
+}
+.nav-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  padding: 10px 4px 8px; cursor: pointer; gap: 3px;
+  font-size: 10px; color: var(--text-dim); font-family: 'Nunito', sans-serif;
+  font-weight: 700; letter-spacing: 0.02em; transition: color 0.15s;
+  -webkit-user-select: none; user-select: none;
+}
+.nav-item .ni { font-size: 22px; line-height: 1; }
+.nav-item.active { color: var(--violet); }
+.nav-item.active .ni-bg {
+  background: var(--violet-lt);
+  border-radius: 12px; padding: 4px 14px;
+}
+
+/* ── CARDS ── */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 12px rgba(80,60,180,0.06);
+}
+.card-sm { padding: 14px 16px; }
+.card-t {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--text-dim); margin-bottom: 12px;
+  font-family: 'Nunito', sans-serif; font-weight: 800;
+}
+
+/* ── STAT PILLS ── */
+.stat-row { display: flex; gap: 10px; margin-bottom: 12px; }
+.stat-pill {
+  flex: 1; border-radius: var(--radius-sm); padding: 14px 12px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.stat-pill .sp-n {
+  font-family: 'Nunito', sans-serif; font-size: 24px; font-weight: 900;
+  line-height: 1; color: var(--text);
+}
+.stat-pill .sp-l { font-size: 11px; color: var(--text-mid); font-weight: 500; }
+.stat-pill.violet { background: var(--violet-lt); }
+.stat-pill.violet .sp-n { color: var(--violet); }
+.stat-pill.orange { background: var(--orange-lt); }
+.stat-pill.orange .sp-n { color: var(--orange); }
+.stat-pill.green  { background: var(--green-lt); }
+.stat-pill.green  .sp-n { color: var(--green); }
+.stat-pill.pink   { background: var(--pink-lt); }
+.stat-pill.pink   .sp-n { color: var(--pink); }
+
+/* ── BADGES ── */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; border-radius: 20px;
+  font-size: 11px; font-weight: 700; font-family: 'Nunito', sans-serif;
+}
+.badge-up   { background: var(--violet-lt); color: var(--violet); }
+.badge-down { background: var(--orange-lt); color: var(--orange); }
+.badge-green{ background: var(--green-lt);  color: var(--green); }
+.badge-red  { background: var(--red-lt);    color: var(--red); }
+.badge-gray { background: var(--surface2);  color: var(--text-mid); }
+.badge-blue { background: var(--violet-lt); color: var(--violet); }
+
+/* ── BUTTONS ── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 11px 18px; border-radius: 50px; border: none;
+  font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800;
+  cursor: pointer; transition: all 0.15s; white-space: nowrap;
+}
+.btn-primary { background: var(--violet); color: #fff; box-shadow: 0 4px 16px rgba(108,78,242,0.3); }
+.btn-primary:active { transform: scale(0.97); }
+.btn-secondary { background: var(--violet-lt); color: var(--violet); }
+.btn-orange { background: var(--orange-lt); color: var(--orange); }
+.btn-ghost { background: var(--surface2); color: var(--text-mid); }
+.btn-danger { background: var(--red-lt); color: var(--red); }
+.btn-sm { padding: 6px 12px; font-size: 12px; }
+.btn-full { width: 100%; }
+.btn-settlement {
+  background: var(--violet); color: #fff;
+  width: 100%; padding: 16px; font-size: 16px;
+  border-radius: 50px; border: none; font-family: 'Nunito', sans-serif;
+  font-weight: 900; cursor: pointer; letter-spacing: 0.02em;
+  box-shadow: 0 6px 24px rgba(108,78,242,0.35);
+  transition: all 0.15s;
+}
+.btn-settlement:active { transform: scale(0.98); opacity: 0.92; }
+
+/* ── FORMS ── */
+input, textarea, select {
+  width: 100%; background: var(--surface2); border: 1.5px solid transparent;
+  border-radius: var(--radius-sm); color: var(--text);
+  font-family: 'DM Sans', sans-serif; font-size: 14px;
+  padding: 12px 14px; outline: none; transition: border-color 0.15s;
+  -webkit-appearance: none; appearance: none;
+}
+input:focus, textarea:focus, select:focus { border-color: var(--violet); background: #fff; }
+input::placeholder, textarea::placeholder { color: var(--text-dim); }
+select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6880' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+label { display: block; font-size: 12px; color: var(--text-mid); font-weight: 600; margin-bottom: 6px; font-family: 'Nunito', sans-serif; letter-spacing: 0.03em; }
+.field { margin-bottom: 14px; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.field-row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+
+/* ── DIVIDER ── */
+.divider { height: 1px; background: var(--border); margin: 14px 0; }
+
+/* ── SECTION HEADER ── */
+.sec-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
+}
+.sec-title {
+  font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 800;
+  color: var(--text);
+}
+.sec-sub { font-size: 12px; color: var(--text-dim); }
+
+/* ── MAP ── */
+.map-wrap {
+  background: var(--surface); border-radius: var(--radius);
+  padding: 16px; overflow-x: auto;
+  box-shadow: 0 2px 12px rgba(80,60,180,0.06);
+  margin-bottom: 12px;
+}
+.map-compass {
+  font-size: 10px; color: var(--text-dim); display: flex;
+  justify-content: space-between; margin-bottom: 10px;
+  font-family: 'Nunito', sans-serif; font-weight: 700; letter-spacing: 0.06em;
+}
+.map-grid { display: flex; gap: 4px; min-width: max-content; }
+.map-col { display: flex; flex-direction: column; gap: 3px; align-items: center; }
+.map-col-lbl { font-size: 9px; color: var(--text-dim); font-family: 'Nunito', sans-serif; font-weight: 800; margin-bottom: 2px; }
+
+.vite {
+  width: 24px; height: 24px; border-radius: 7px;
+  cursor: pointer; border: 2px solid transparent;
+  transition: transform 0.1s, box-shadow 0.1s;
+  position: relative; flex-shrink: 0;
+}
+.vite:active { transform: scale(1.2); }
+.vite.merlot   { background: linear-gradient(135deg,#e05c6a,#c0344a); }
+.vite.cabfranc { background: linear-gradient(135deg,#6c4ef2,#4a2fc0); }
+.vite.morta    { background: #ddd; }
+.vite.vuota    { background: transparent; border: 2px dashed #ccc; }
+.vite.sel      { border-color: var(--orange) !important; transform: scale(1.15) !important; box-shadow: 0 0 0 3px rgba(245,166,35,0.25) !important; }
+.vite.barbatella { border-color: var(--orange); box-shadow: 0 0 0 2px rgba(245,166,35,0.2); }
+.vite.has-note::after { content:''; position:absolute; top:2px; right:2px; width:4px; height:4px; border-radius:50%; background:var(--orange); }
+
+/* Map toolbar */
+.map-toolbar {
+  display: flex; gap: 6px; flex-wrap: wrap; align-items: center;
+  padding-top: 12px; border-top: 1px solid var(--border);
+  margin-top: 10px;
+}
+.map-chip {
+  padding: 5px 12px; border-radius: 20px; border: none;
+  font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800;
+  cursor: pointer; transition: all 0.12s; background: var(--surface2); color: var(--text-mid);
+}
+.map-chip:active { transform: scale(0.95); }
+.map-chip.active { background: var(--violet-lt); color: var(--violet); }
+.map-sel-cnt { margin-left: auto; font-size: 11px; color: var(--orange); font-weight: 700; font-family:'Nunito',sans-serif; }
+
+/* Map edit drawer */
+.map-drawer {
+  background: var(--surface); border-radius: var(--radius);
+  padding: 18px; margin-bottom: 12px; display: none;
+  box-shadow: 0 2px 12px rgba(80,60,180,0.08);
+  border: 1.5px solid var(--violet-md);
+}
+.map-drawer.on { display: block; }
+.edit-info {
+  font-size: 14px; color: var(--text-mid); margin-bottom: 14px; line-height: 1.4;
+}
+.edit-info strong { color: var(--violet); font-family: 'Nunito', sans-serif; font-weight: 800; }
+
+.vtype-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+.vtype-btn {
+  padding: 10px 8px; border-radius: var(--radius-sm); border: 2px solid var(--border);
+  background: var(--surface2); color: var(--text-mid);
+  font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 800;
+  cursor: pointer; transition: all 0.12s;
+  display: flex; align-items: center; gap: 8px;
+}
+.vtype-btn:active { transform: scale(0.97); }
+.vtype-btn.vm:active, .vtype-btn.vm.sel   { border-color:#e05c6a; background:var(--pink-lt); color:#c0344a; }
+.vtype-btn.vc:active, .vtype-btn.vc.sel   { border-color:var(--violet); background:var(--violet-lt); color:var(--violet); }
+.vtype-btn.vmor:active{ border-color:#ccc; background:#f5f5f5; color:#999; }
+.vtype-btn.vvuo:active{ border-color:#ddd; background:#fafafa; color:#bbb; }
+.vdot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+
+/* Legend items */
+.leg-items { display: flex; flex-direction: column; gap: 10px; }
+.leg-item {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13px; color: var(--text-mid); font-weight: 500;
+}
+.ldot { width: 14px; height: 14px; border-radius: 4px; flex-shrink: 0; }
+.ldot.merlot   { background: linear-gradient(135deg,#e05c6a,#c0344a); }
+.ldot.cabfranc { background: linear-gradient(135deg,#6c4ef2,#4a2fc0); }
+.ldot.morta    { background: #ddd; }
+.ldot.vuota    { background: transparent; border: 2px dashed #ccc; }
+.ldot.barbatella { background: transparent; border: 2px solid var(--orange); }
+.lcount { margin-left: auto; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 14px; color: var(--text); }
+
+/* ── ENTRY LIST ── */
+.entry-list { display: flex; flex-direction: column; gap: 8px; }
+.entry-item {
+  background: var(--surface2); border-radius: var(--radius-sm);
+  padding: 14px; display: flex; align-items: flex-start; gap: 12px;
+}
+.entry-date { font-size: 11px; color: var(--text-dim); white-space: nowrap; min-width: 60px; padding-top: 2px; font-family: 'Nunito', sans-serif; font-weight: 700; }
+.entry-body { flex: 1; }
+.entry-title { font-size: 14px; color: var(--text); font-weight: 600; }
+.entry-meta { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+
+/* ── CALENDAR ── */
+.cal-month-title { font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin: 16px 0 8px; }
+.cal-event {
+  background: var(--surface2); border-radius: var(--radius-sm);
+  padding: 12px 14px; display: flex; align-items: flex-start; gap: 10px;
+  margin-bottom: 6px;
+}
+.cal-event-date { font-size: 11px; color: var(--text-dim); white-space: nowrap; min-width: 55px; font-family: 'Nunito', sans-serif; font-weight: 700; }
+.cal-event-body { flex: 1; }
+.cal-event-title { font-size: 13px; font-weight: 600; color: var(--text); }
+.cal-event-sub { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+.cal-event-del { color: var(--text-dim); font-size: 14px; cursor: pointer; opacity: 0.5; padding: 4px; }
+.cal-event-del:active { opacity: 1; color: var(--red); }
+
+/* ── FENOLOGIA ── */
+.feno-timeline { position: relative; padding-left: 28px; }
+.feno-timeline::before { content:''; position:absolute; left:9px; top:0; bottom:0; width:2px; background: var(--border); border-radius: 2px; }
+.feno-item { position: relative; margin-bottom: 10px; }
+.feno-dot { position:absolute; left:-28px; top:8px; width:16px; height:16px; border-radius:50%; border:2.5px solid var(--border); background:var(--bg); transition: all 0.2s; cursor:pointer; }
+.feno-dot.done { background: var(--violet); border-color: var(--violet); box-shadow: 0 0 0 3px var(--violet-lt); }
+.feno-card { background:var(--surface2); border-radius:var(--radius-sm); padding:12px 14px; cursor:pointer; transition:all 0.15s; border: 1.5px solid transparent; }
+.feno-card:active { transform: scale(0.99); }
+.feno-card.done { border-color: var(--violet-md); background: var(--violet-lt); }
+.feno-name { font-size:13px; font-weight:600; color:var(--text); }
+.feno-desc { font-size:11px; color:var(--text-dim); margin-top:2px; }
+.feno-date { font-size:11px; color:var(--violet); margin-top:4px; font-weight:600; }
+
+/* ── TABLE ── */
+.simple-table { width:100%; border-collapse:collapse; font-size:12px; }
+.simple-table th { text-align:left; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-dim); padding:0 8px 10px; font-weight:700; }
+.simple-table td { padding:10px 8px; border-top:1px solid var(--border); color:var(--text-mid); vertical-align:top; }
+
+/* ── TOAST ── */
+.toast {
+  position:fixed; bottom: calc(var(--nav-h) + var(--safe-b) + 16px); left:50%; transform:translateX(-50%) translateY(10px);
+  background:var(--text); color:#fff; padding:10px 20px; border-radius:50px;
+  font-size:13px; font-weight:600; font-family:'Nunito',sans-serif;
+  opacity:0; transition:all 0.25s; z-index:9999; pointer-events:none;
+  white-space:nowrap;
+}
+.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* ── EMPTY ── */
+.empty-state { text-align:center; padding:40px 20px; color:var(--text-dim); font-size:13px; line-height:1.8; }
+.empty-icon { font-size:2.5rem; display:block; margin-bottom:10px; opacity:0.4; }
+
+/* ── HERO CARD (mappa stats) ── */
+.hero-card {
+  background: linear-gradient(135deg, #6c4ef2 0%, #9c6af5 100%);
+  border-radius: var(--radius); padding: 20px;
+  margin-bottom: 12px; color: #fff;
+  box-shadow: 0 6px 24px rgba(108,78,242,0.35);
+}
+.hero-label { font-size: 12px; opacity: 0.75; font-weight: 600; letter-spacing: 0.06em; font-family:'Nunito',sans-serif; text-transform:uppercase; }
+.hero-number { font-family:'Nunito',sans-serif; font-size: 40px; font-weight: 900; line-height: 1; margin: 4px 0 10px; }
+.hero-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+.hero-badge {
+  background: rgba(255,255,255,0.2); backdrop-filter: blur(4px);
+  padding: 4px 10px; border-radius: 20px; font-size: 11px;
+  font-family:'Nunito',sans-serif; font-weight:800; color:#fff;
+}
+.hero-badge.orange { background: rgba(245,166,35,0.85); }
+
+/* ── FILTER CHIPS ── */
+.filter-chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 12px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.filter-chips::-webkit-scrollbar { display: none; }
+.chip {
+  padding: 6px 14px; border-radius: 20px; border: none; white-space: nowrap;
+  font-family:'Nunito',sans-serif; font-size:12px; font-weight:800;
+  background: var(--surface); color: var(--text-mid); cursor: pointer; transition: all 0.12s;
+  box-shadow: 0 1px 4px rgba(80,60,180,0.07);
+}
+.chip.active { background: var(--violet); color: #fff; box-shadow: 0 3px 10px rgba(108,78,242,0.3); }
+
+/* ── SHEET (form modal) ── */
+.sheet-overlay { display:none; position:fixed; inset:0; background:rgba(26,24,48,0.4); z-index:200; backdrop-filter:blur(4px); }
+.sheet-overlay.on { display:block; }
+.sheet {
+  position:fixed; bottom:0; left:0; right:0; z-index:201;
+  background:var(--surface); border-radius:24px 24px 0 0;
+  padding:20px 20px calc(var(--safe-b) + 20px);
+  max-height:88dvh; overflow-y:auto;
+  transform:translateY(100%); transition:transform 0.3s cubic-bezier(.32,.72,0,1);
+}
+.sheet.on { transform:translateY(0); }
+.sheet-handle { width:36px; height:4px; background:var(--border); border-radius:2px; margin:0 auto 20px; }
+.sheet-title { font-family:'Nunito',sans-serif; font-size:18px; font-weight:900; color:var(--text); margin-bottom:18px; }
+</style>
+</head>
+<body>
+
+<!-- ══ MAPPA ══ -->
+<div id="page-mappa" class="page active">
+  <div class="top-bar">
+    <h1>Vigneto Piediluco</h1>
+    <p>430 M · UMBRIA · ANNO 3</p>
+  </div>
+
+  <div class="hero-card">
+    <div class="hero-label">Viti totali attive</div>
+    <div class="hero-number" id="hero-tot">105</div>
+    <div class="hero-badges">
+      <span class="hero-badge" id="map-stat-merlot">80 Merlot</span>
+      <span class="hero-badge orange" id="map-stat-cab">0 Cab.F</span>
+      <span class="hero-badge" id="map-stat-vuote">0 vuote</span>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-pill violet"><span class="sp-n" id="lc-m">80</span><span class="sp-l">Merlot</span></div>
+    <div class="stat-pill orange"><span class="sp-n" id="lc-c">0</span><span class="sp-l">Cab. Franc</span></div>
+    <div class="stat-pill green"><span class="sp-n" id="lc-barb">20</span><span class="sp-l">Barbatelle</span></div>
+    <div class="stat-pill pink"><span class="sp-n" id="lc-mor">0</span><span class="sp-l">Morte</span></div>
+  </div>
+
+  <!-- Mappa griglia -->
+  <div class="map-wrap">
+    <div class="map-compass"><span>↑ NORD</span><span style="font-size:9px;opacity:0.5">tocca per selezionare</span><span></span></div>
+    <div class="map-grid" id="vigna"></div>
+    <div class="map-compass" style="margin-top:8px;margin-bottom:0"><span>← O</span><span>↓ SUD</span><span>E →</span></div>
+    <div class="map-toolbar">
+      <button class="map-chip" onclick="mapSelAll()">Tutte</button>
+      <button class="map-chip" id="chip-merlot" onclick="mapSelType('merlot')">Merlot</button>
+      <button class="map-chip" id="chip-cabfranc" onclick="mapSelType('cabfranc')">Cab.F</button>
+      <button class="map-chip" id="chip-morta" onclick="mapSelType('morta')">Morte</button>
+      <button class="map-chip" id="chip-vuota" style="display:none" onclick="mapSelType('vuota')">Vuote</button>
+      <button class="map-chip" onclick="mapClearSel()">✕ Desel.</button>
+      <span class="map-sel-cnt" id="map-sel-cnt"></span>
+    </div>
+  </div>
+
+  <!-- Drawer modifica -->
+  <div class="map-drawer" id="map-edit-card">
+    <div class="card-t">Modifica selezione</div>
+    <div class="edit-info" id="map-edit-info"></div>
+    <div class="vtype-grid">
+      <button class="vtype-btn vm"  onclick="mapSetType('merlot')"><span class="vdot" style="background:linear-gradient(135deg,#e05c6a,#c0344a)"></span>Merlot</button>
+      <button class="vtype-btn vc"  onclick="mapSetType('cabfranc')"><span class="vdot" style="background:linear-gradient(135deg,#6c4ef2,#4a2fc0)"></span>Cab. Franc</button>
+      <button class="vtype-btn vmor" onclick="mapSetType('morta')"><span class="vdot" style="background:#ddd"></span>Morta</button>
+      <button class="vtype-btn vvuo" onclick="mapSetType('vuota')" style="grid-column:span 1"><span class="vdot" style="background:transparent;border:2px dashed #ccc"></span>Vuota</button>
+    </div>
+    <div class="divider"></div>
+    <div class="field">
+      <label>Nota breve (indicatore)</label>
+      <input type="text" id="map-note-in" placeholder="es. vite debole...">
+    </div>
+    <div class="field">
+      <label>Note agronomiche</label>
+      <textarea id="map-note-vite" placeholder="Potatura, stato vegetativo, osservazioni..." style="min-height:60px"></textarea>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-primary" style="flex:1" onclick="mapSaveNote()">Salva</button>
+      <button class="btn btn-ghost" onclick="mapClearSel()">✕</button>
+    </div>
+  </div>
+  <div id="map-empty-card" style="display:none"></div>
+
+  <!-- Legenda -->
+  <div class="card">
+    <div class="card-t">Legenda</div>
+    <div class="leg-items">
+      <div class="leg-item"><div class="ldot merlot"></div>Merlot<span class="lcount" id="lc-m2">—</span></div>
+      <div class="leg-item"><div class="ldot cabfranc"></div>Cab. Franc<span class="lcount" id="lc-c2">—</span></div>
+      <div class="leg-item"><div class="ldot morta"></div>Morta<span class="lcount" id="lc-mor2">—</span></div>
+      <div class="leg-item"><div class="ldot vuota"></div>Vuota<span class="lcount" id="lc-v">—</span></div>
+      <div class="leg-item"><div class="ldot barbatella"></div><span style="color:var(--orange);font-weight:600">Barbatelle 2026</span><span class="lcount" id="lc-barb2">—</span></div>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:11px;color:var(--text-dim)">
+      Target: 80 Merlot · 20 Cab. Franc<br>5 Merlot incerti → sostituzione con Cab. Franc
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-t">Note vigneto</div>
+    <textarea id="map-note-gen" style="min-height:72px" placeholder="Osservazioni generali...">Marzo 2026 — Anno 3. Potatura in corso, impostazione Guyot. Piano barbatelle: 20 Cab. Franc inserite nei 20 posti vuoti.</textarea>
+    <div style="margin-top:10px"><button class="btn-settlement" onclick="saveNoteGen()">Salva note</button></div>
+  </div>
+</div>
+
+<!-- ══ DIARIO ══ -->
+<div id="page-diario" class="page">
+  <div class="top-bar">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div><h1>Diario</h1><p>ATTIVITÀ E INTERVENTI</p></div>
+      <button class="btn btn-primary btn-sm" onclick="openSheet('sheet-diario')">+ Aggiungi</button>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-pill violet"><span class="sp-n" id="ds-tot">0</span><span class="sp-l">Totali</span></div>
+    <div class="stat-pill orange"><span class="sp-n" id="ds-tratt">0</span><span class="sp-l">Trattamenti</span></div>
+    <div class="stat-pill green"><span class="sp-n" id="ds-pot">0</span><span class="sp-l">Potature</span></div>
+  </div>
+
+  <div class="filter-chips">
+    <button class="chip active" onclick="filterDiario('all',this)">Tutte</button>
+    <button class="chip" onclick="filterDiario('potatura',this)">✂️ Potatura</button>
+    <button class="chip" onclick="filterDiario('trattamento',this)">💊 Trattamento</button>
+    <button class="chip" onclick="filterDiario('fertilizzazione',this)">🌱 Fertiliz.</button>
+    <button class="chip" onclick="filterDiario('impianto',this)">🌿 Impianto</button>
+    <button class="chip" onclick="filterDiario('vendemmia',this)">🍇 Vendemmia</button>
+    <button class="chip" onclick="filterDiario('osservazione',this)">👁 Osserv.</button>
+  </div>
+
+  <div id="diario-list" class="entry-list">
+    <div class="empty-state"><span class="empty-icon">📓</span>Nessuna voce ancora.</div>
+  </div>
+</div>
+
+<!-- ══ PRODUZIONE ══ -->
+<div id="page-produzione" class="page">
+  <div class="top-bar">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div><h1>Produzione</h1><p>VENDEMMIA E RACCOLTA</p></div>
+      <button class="btn btn-primary btn-sm" onclick="openSheet('sheet-prod')">+ Registra</button>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-pill violet"><span class="sp-n" id="p-tot-kg">—</span><span class="sp-l">Kg totali</span></div>
+    <div class="stat-pill orange"><span class="sp-n" id="p-anni">—</span><span class="sp-l">Annate</span></div>
+    <div class="stat-pill green"><span class="sp-n" id="p-media">—</span><span class="sp-l">Kg/vite</span></div>
+  </div>
+
+  <div id="prod-list">
+    <div class="empty-state"><span class="empty-icon">🍇</span>Nessuna vendemmia.<br>Anno 3 — prima produzione!</div>
+  </div>
+
+  <div class="card" style="margin-top:12px">
+    <div class="card-t">Note cantina</div>
+    <textarea id="p-note-cantina" style="min-height:90px" placeholder="Vinificazione, affinamento, blend..."></textarea>
+    <div style="margin-top:10px"><button class="btn-settlement" onclick="saveNoteCantina()">Salva note cantina</button></div>
+  </div>
+</div>
+
+<!-- ══ CALENDARIO ══ -->
+<div id="page-calendario" class="page">
+  <div class="top-bar">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div><h1>Calendario</h1><p>INTERVENTI PIANIFICATI</p></div>
+      <button class="btn btn-primary btn-sm" onclick="openSheet('sheet-cal')">+ Aggiungi</button>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-pill violet"><span class="sp-n" id="cal-tot">0</span><span class="sp-l">Totali</span></div>
+    <div class="stat-pill green"><span class="sp-n" id="cal-done">0</span><span class="sp-l">Completati</span></div>
+    <div class="stat-pill orange"><span class="sp-n" id="cal-pending">0</span><span class="sp-l">In attesa</span></div>
+  </div>
+
+  <div id="cal-list">
+    <div class="empty-state"><span class="empty-icon">📅</span>Nessun intervento.</div>
+  </div>
+</div>
+
+<!-- ══ FENOLOGIA ══ -->
+<div id="page-fenologia" class="page">
+  <div class="top-bar">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div><h1>Fenologia</h1><p>STADI VEGETATIVI 2026</p></div>
+      <span class="badge badge-up" id="feno-progress">0/10</span>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <div class="card-t">Registra fase</div>
+    <div class="field"><label>Fase fenologica</label><select id="feno-sel"><option value="">— seleziona —</option></select></div>
+    <div class="field-row">
+      <div><label>Data</label><input type="date" id="feno-data"></div>
+      <div><label>Note</label><input type="text" id="feno-note" placeholder="Osservazioni..."></div>
+    </div>
+    <button class="btn-settlement" onclick="saveFeno()">Registra fase</button>
+  </div>
+
+  <div class="feno-timeline" id="feno-list"></div>
+</div>
+
+<!-- ══ TRATTAMENTI ══ -->
+<div id="page-trattamenti" class="page">
+  <div class="top-bar">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div><h1>Trattamenti</h1><p>REGISTRO FITOSANITARIO</p></div>
+      <button class="btn btn-primary btn-sm" onclick="openSheet('sheet-tratt')">+ Registra</button>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-pill violet"><span class="sp-n" id="t-tot-n">0</span><span class="sp-l">Totali</span></div>
+    <div class="stat-pill pink"><span class="sp-n" id="t-pero">0</span><span class="sp-l">Peronos.</span></div>
+    <div class="stat-pill orange"><span class="sp-n" id="t-oidio">0</span><span class="sp-l">Oidio</span></div>
+    <div class="stat-pill green"><span class="sp-n" id="t-bot">0</span><span class="sp-l">Botrytis</span></div>
+  </div>
+
+  <div id="tratt-list">
+    <div class="empty-state"><span class="empty-icon">💊</span>Nessun trattamento.</div>
+  </div>
+</div>
+
+<!-- ══ BOTTOM NAV ══ -->
+<nav class="bot-nav">
+  <div class="nav-item active" onclick="goTo('mappa')">
+    <div class="ni-bg"><span class="ni">🗺</span></div><span>Mappa</span>
+  </div>
+  <div class="nav-item" onclick="goTo('diario')">
+    <span class="ni">📓</span><span>Diario</span>
+  </div>
+  <div class="nav-item" onclick="goTo('produzione')">
+    <span class="ni">🍇</span><span>Produz.</span>
+  </div>
+  <div class="nav-item" onclick="goTo('calendario')">
+    <span class="ni">📅</span><span>Agenda</span>
+  </div>
+  <div class="nav-item" onclick="goTo('fenologia')">
+    <span class="ni">🌿</span><span>Fenol.</span>
+  </div>
+  <div class="nav-item" onclick="goTo('trattamenti')">
+    <span class="ni">💊</span><span>Tratt.</span>
+  </div>
+</nav>
+
+<!-- ══ SHEETS (modali) ══ -->
+<div class="sheet-overlay" id="overlay-sheet-diario" onclick="closeSheet('sheet-diario')"></div>
+<div class="sheet" id="sheet-diario">
+  <div class="sheet-handle"></div>
+  <div class="sheet-title">Nuova voce diario</div>
+  <div class="field-row">
+    <div><label>Data</label><input type="date" id="d-data"></div>
+    <div><label>Categoria</label>
+      <select id="d-cat">
+        <option value="potatura">✂️ Potatura</option>
+        <option value="trattamento">💊 Trattamento</option>
+        <option value="fertilizzazione">🌱 Fertilizzazione</option>
+        <option value="vendemmia">🍇 Vendemmia</option>
+        <option value="osservazione">👁 Osservazione</option>
+        <option value="impianto">🌿 Impianto</option>
+        <option value="altro">📝 Altro</option>
+      </select>
+    </div>
+  </div>
+  <div class="field"><label>Titolo</label><input type="text" id="d-titolo" placeholder="Breve descrizione"></div>
+  <div class="field"><label>Note</label><textarea id="d-note" placeholder="Dettagli, condizioni meteo..." style="min-height:70px"></textarea></div>
+  <button class="btn-settlement" onclick="saveDiario()">Salva voce</button>
+</div>
+
+<div class="sheet-overlay" id="overlay-sheet-prod" onclick="closeSheet('sheet-prod')"></div>
+<div class="sheet" id="sheet-prod">
+  <div class="sheet-handle"></div>
+  <div class="sheet-title">Registra vendemmia</div>
+  <div class="field-row">
+    <div><label>Anno</label><input type="number" id="p-anno" placeholder="2026" min="2020" max="2040"></div>
+    <div><label>Data</label><input type="date" id="p-data"></div>
+  </div>
+  <div class="field-row3">
+    <div><label>Kg raccolti</label><input type="number" id="p-kg" placeholder="0" step="0.5"></div>
+    <div><label>N° viti</label><input type="number" id="p-nviti" placeholder="0"></div>
+    <div><label>Gradi Brix</label><input type="number" id="p-brix" placeholder="0.0" step="0.1"></div>
+  </div>
+  <div class="field-row">
+    <div><label>Varietà</label>
+      <select id="p-varieta">
+        <option>Merlot</option><option>Cabernet Franc</option><option>Blend Merlot/Cab.Franc</option>
+      </select>
+    </div>
+    <div><label>Qualità (1–5)</label><input type="number" id="p-qual" placeholder="4" min="1" max="5"></div>
+  </div>
+  <div class="field"><label>Note</label><textarea id="p-note" placeholder="Condizioni, osservazioni..." style="min-height:60px"></textarea></div>
+  <button class="btn-settlement" onclick="saveProd()">Registra vendemmia</button>
+</div>
+
+<div class="sheet-overlay" id="overlay-sheet-cal" onclick="closeSheet('sheet-cal')"></div>
+<div class="sheet" id="sheet-cal">
+  <div class="sheet-handle"></div>
+  <div class="sheet-title">Nuovo intervento</div>
+  <div class="field-row">
+    <div><label>Data</label><input type="date" id="cal-data"></div>
+    <div><label>Tipo</label>
+      <select id="cal-tipo">
+        <option value="potatura">✂️ Potatura</option><option value="legatura">🪢 Legatura</option>
+        <option value="scacchiatura">🌿 Scacchiatura</option><option value="cimatura">✂️ Cimatura</option>
+        <option value="trattamento">💊 Trattamento</option><option value="fertilizzazione">🌱 Fertilizz.</option>
+        <option value="irrigazione">💧 Irrigazione</option><option value="vendemmia">🍇 Vendemmia</option>
+        <option value="impianto">🌿 Impianto</option><option value="altro">📝 Altro</option>
+      </select>
+    </div>
+  </div>
+  <div class="field"><label>Descrizione</label><input type="text" id="cal-desc" placeholder="Descrizione intervento"></div>
+  <div class="field-row">
+    <div><label>Priorità</label>
+      <select id="cal-prio"><option value="alta">🔴 Alta</option><option value="media" selected>🟡 Media</option><option value="bassa">🟢 Bassa</option></select>
+    </div>
+    <div><label>Stato</label>
+      <select id="cal-stato"><option value="pianificato">Pianificato</option><option value="completato">Completato</option></select>
+    </div>
+  </div>
+  <button class="btn-settlement" onclick="saveCal()">Aggiungi intervento</button>
+</div>
+
+<div class="sheet-overlay" id="overlay-sheet-tratt" onclick="closeSheet('sheet-tratt')"></div>
+<div class="sheet" id="sheet-tratt">
+  <div class="sheet-handle"></div>
+  <div class="sheet-title">Nuovo trattamento</div>
+  <div class="field-row">
+    <div><label>Data</label><input type="date" id="t-data"></div>
+    <div><label>Patogeno</label>
+      <select id="t-target">
+        <option>Peronospora</option><option>Oidio</option><option>Botrytis</option>
+        <option>Escoriosi</option><option>Acari</option><option>Preventivo</option><option>Altro</option>
+      </select>
+    </div>
+  </div>
+  <div class="field-row">
+    <div><label>Prodotto</label><input type="text" id="t-prod" placeholder="Es: Poltiglia bordolese"></div>
+    <div><label>Dose (g/hL)</label><input type="number" id="t-dose" step="0.1"></div>
+  </div>
+  <div class="field-row">
+    <div><label>Vol. acqua (L)</label><input type="number" id="t-vol"></div>
+    <div><label>Carenza (gg)</label><input type="number" id="t-carenza" placeholder="21"></div>
+  </div>
+  <div class="field-row">
+    <div><label>Metodo</label>
+      <select id="t-metodo"><option>Zaino atomizzatore</option><option>Atomizzatore trainato</option><option>Manuale</option></select>
+    </div>
+    <div><label>Meteo</label><input type="text" id="t-meteo" placeholder="es: 18°C, nuvoloso"></div>
+  </div>
+  <div class="field"><label>Note</label><textarea id="t-note" style="min-height:50px"></textarea></div>
+  <button class="btn-settlement" onclick="saveTratt()">Salva trattamento</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══ SUPABASE ══
+const SB_URL = 'https://geonqgljaadinrmvwtsv.supabase.co';
+const SB_KEY = 'sb_publishable_TlOekRWFozEq7OluZs5e_A_CqZB-T50';
+const sb = {
+  headers: { 'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Content-Type':'application/json','Prefer':'return=representation' },
+  async get(table,params=''){const r=await fetch(`${SB_URL}/rest/v1/${table}${params}`,{headers:this.headers});return r.ok?r.json():[];},
+  async upsert(table,data){const r=await fetch(`${SB_URL}/rest/v1/${table}`,{method:'POST',headers:{...this.headers,'Prefer':'resolution=merge-duplicates,return=representation'},body:JSON.stringify(data)});return r.ok;},
+  async del(table,filter){const r=await fetch(`${SB_URL}/rest/v1/${table}?${filter}`,{method:'DELETE',headers:this.headers});return r.ok;},
+  async patch(table,filter,data){const r=await fetch(`${SB_URL}/rest/v1/${table}?${filter}`,{method:'PATCH',headers:this.headers,body:JSON.stringify(data)});return r.ok;}
+};
+
+// ══ HELPERS ══
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2200);}
+function fmtDate(s){if(!s)return'—';const d=new Date(s+'T00:00:00');return d.toLocaleDateString('it-IT',{day:'2-digit',month:'short',year:'numeric'});}
+function today(){return new Date().toISOString().split('T')[0];}
+
+// ══ SHEET MODAL ══
+function openSheet(id){
+  document.getElementById('sheet-'+id).classList.add('on');
+  document.getElementById('overlay-sheet-'+id).classList.add('on');
+  // set today for date fields
+  const df=document.getElementById(id==='sheet-diario'?'d-data':id==='sheet-prod'?'p-data':id==='sheet-cal'?'cal-data':'t-data');
+  if(df)df.value=today();
+  if(id==='sheet-prod')document.getElementById('p-anno').value=new Date().getFullYear();
+}
+function closeSheet(id){
+  document.getElementById('sheet-'+id).classList.remove('on');
+  document.getElementById('overlay-sheet-'+id).classList.remove('on');
+}
+
+// ══ NAV ══
+function goTo(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>{n.classList.remove('active');n.querySelector('.ni-bg')?.replaceWith(()=>{});});
+  document.getElementById('page-'+id).classList.add('active');
+  const order=['mappa','diario','produzione','calendario','fenologia','trattamenti'];
+  const navItems=document.querySelectorAll('.nav-item');
+  const idx=order.indexOf(id);
+  if(idx>=0){
+    navItems[idx].classList.add('active');
+    const ni=navItems[idx].querySelector('.ni');
+    if(ni&&!navItems[idx].querySelector('.ni-bg')){
+      const wrap=document.createElement('div');wrap.className='ni-bg';ni.parentNode.insertBefore(wrap,ni);wrap.appendChild(ni);
+    }
+  }
+}
+
+// ══ MAPPA ══
+const F=15,V=7;
+let mapState={},mapSel=new Set(),mapDragging=false;
+
+async function initMap(){
+  const rows=await sb.get('viti','?order=filare,vite');
+  if(rows.length>0){rows.forEach(r=>{mapState[`${r.filare}_${r.vite}`]={type:r.varieta,barbatella:r.barbatella,note:r.note||'',note_vite:r.note_vite||''};});}
+  else{toast('Nessun dato — importa il CSV');}
+  buildMapGrid();mapUpdateStats();
+  const cfg=await sb.get('config','?chiave=eq.note_vigneto');
+  if(cfg[0])document.getElementById('map-note-gen').value=cfg[0].valore;
+}
+
+function buildMapGrid(){
+  const g=document.getElementById('vigna');g.innerHTML='';
+  for(let fi=F;fi>=1;fi--){
+    const f=fi;
+    const col=document.createElement('div');col.className='map-col';
+    const lbl=document.createElement('div');lbl.className='map-col-lbl';lbl.textContent=f;
+    col.appendChild(lbl);
+    for(let v=1;v<=V;v++){
+      const id=`${f}_${v}`;
+      const el=document.createElement('div');el.className='vite';el.dataset.id=id;
+      mapApplyClass(el,id);
+      el.addEventListener('touchstart',e=>{mapDragging=true;mapToggle(id);e.preventDefault();},{passive:false});
+      el.addEventListener('touchmove',e=>{
+        const t=e.touches[0];
+        const target=document.elementFromPoint(t.clientX,t.clientY);
+        if(target&&target.dataset.id&&!mapSel.has(target.dataset.id))mapToggle(target.dataset.id);
+        e.preventDefault();
+      },{passive:false});
+      el.addEventListener('mousedown',e=>{if(e.ctrlKey||e.metaKey){mapToggle(id);}else{mapDragging=true;if(!e.shiftKey)mapClearSel(false);mapToggle(id);}e.preventDefault();});
+      el.addEventListener('mouseenter',()=>{if(mapDragging)mapToggle(id);});
+      col.appendChild(el);
+    }
+    g.appendChild(col);
+  }
+  document.addEventListener('mouseup',()=>mapDragging=false);
+  document.addEventListener('touchend',()=>mapDragging=false);
+}
+
+function mapApplyClass(el,id){
+  const d=mapState[id]||{type:'merlot',note:'',barbatella:false};
+  let cls=`vite ${d.type}`;
+  if(mapSel.has(id))cls+=' sel';
+  if(d.note)cls+=' has-note';
+  if(d.barbatella)cls+=' barbatella';
+  el.className=cls;
+  const nv2=d.note_vite?' | '+d.note_vite.substring(0,50):'';
+  el.title=`F${id.split('_')[0]} · V${id.split('_')[1]} · ${mapTypeLabel(d.type)}${d.barbatella?' 🌱':''}${nv2}`;
+}
+function mapRefreshAll(){document.querySelectorAll('.vite').forEach(el=>mapApplyClass(el,el.dataset.id));mapUpdateStats();mapUpdatePanel();}
+function mapToggle(id){mapSel.has(id)?mapSel.delete(id):mapSel.add(id);const el=document.querySelector(`[data-id="${id}"]`);if(el)mapApplyClass(el,id);mapUpdatePanel();}
+function mapClearSel(refresh=true){mapSel.clear();if(refresh)mapRefreshAll();mapUpdatePanel();}
+function mapSelAll(){for(let f=1;f<=F;f++)for(let v=1;v<=V;v++)mapSel.add(`${f}_${v}`);mapRefreshAll();}
+function mapSelType(t){Object.entries(mapState).forEach(([id,d])=>{if(d.type===t)mapSel.add(id);});mapRefreshAll();}
+
+function mapSetType(t){
+  if(!mapSel.size)return;
+  mapSel.forEach(id=>{if(!mapState[id])mapState[id]={type:t,note:'',barbatella:false};else{mapState[id].type=t;mapState[id].barbatella=false;}});
+  const updates=[...mapSel].map(id=>({id,filare:parseInt(id.split('_')[0]),vite:parseInt(id.split('_')[1]),varieta:mapState[id].type,barbatella:mapState[id].barbatella||false,note:mapState[id].note||'',note_vite:mapState[id].note_vite||''}));
+  sb.upsert('viti',updates);mapRefreshAll();toast('Viti aggiornate');
+}
+function mapSaveNote(){
+  const val=document.getElementById('map-note-in').value;
+  const nv=document.getElementById('map-note-vite').value;
+  mapSel.forEach(id=>{if(!mapState[id])mapState[id]={type:'merlot',note:val,note_vite:nv,barbatella:false};else{mapState[id].note=val;mapState[id].note_vite=nv;}});
+  const updates=[...mapSel].map(id=>({id,filare:parseInt(id.split('_')[0]),vite:parseInt(id.split('_')[1]),varieta:mapState[id].type,barbatella:mapState[id].barbatella||false,note:mapState[id].note||'',note_vite:mapState[id].note_vite||''}));
+  sb.upsert('viti',updates);mapRefreshAll();toast('Note salvate');
+}
+function mapUpdatePanel(){
+  const card=document.getElementById('map-edit-card');
+  const cnt=document.getElementById('map-sel-cnt');
+  const info=document.getElementById('map-edit-info');
+  if(!mapSel.size){card.classList.remove('on');cnt.textContent='';return;}
+  card.classList.add('on');cnt.textContent=`${mapSel.size} sel.`;
+  const ids=[...mapSel];
+  if(ids.length===1){
+    const[f,v]=ids[0].split('_');const d=mapState[ids[0]]||{};
+    info.innerHTML=`<strong>F${f} · V${v}</strong> — ${mapTypeLabel(d.type)}${d.barbatella?' 🌱':''}`;
+    document.getElementById('map-note-in').value=d.note||'';
+    document.getElementById('map-note-vite').value=d.note_vite||'';
+  }else{
+    const types=[...new Set(ids.map(id=>mapState[id]?.type))];
+    info.innerHTML=`<strong>${ids.length} viti</strong> — ${types.map(mapTypeLabel).join(', ')}`;
+    const notes=[...new Set(ids.map(id=>mapState[id]?.note||''))];
+    document.getElementById('map-note-in').value=notes.length===1?notes[0]:'';
+    const nvs=[...new Set(ids.map(id=>mapState[id]?.note_vite||''))];document.getElementById('map-note-vite').value=nvs.length===1?nvs[0]:'';
+  }
+}
+function mapTypeLabel(t){return{merlot:'Merlot',cabfranc:'Cab. Franc',morta:'Morta',vuota:'Vuota'}[t]||t;}
+function mapUpdateStats(){
+  const c={merlot:0,cabfranc:0,morta:0,vuota:0};let barb=0;
+  Object.values(mapState).forEach(d=>{if(c[d.type]!==undefined)c[d.type]++;if(d.barbatella)barb++;});
+  const tot=c.merlot+c.cabfranc;
+  document.getElementById('lc-m').textContent=c.merlot;
+  document.getElementById('lc-c').textContent=c.cabfranc;
+  document.getElementById('lc-mor').textContent=c.morta;
+  document.getElementById('lc-v').textContent=c.vuota;
+  document.getElementById('lc-barb').textContent=barb;
+  document.getElementById('lc-m2').textContent=c.merlot;
+  document.getElementById('lc-c2').textContent=c.cabfranc;
+  document.getElementById('lc-mor2').textContent=c.morta;
+  document.getElementById('lc-barb2').textContent=barb;
+  document.getElementById('hero-tot').textContent=tot;
+  document.getElementById('map-stat-merlot').textContent=c.merlot+' Merlot';
+  document.getElementById('map-stat-cab').textContent=c.cabfranc+' Cab.F';
+  document.getElementById('map-stat-vuote').textContent=c.vuota+' vuote';
+  // mostra/nascondi chip in base alle tipologie presenti
+  const show = (id, visible) => {
+    const el = document.getElementById(id);
+    if(el) el.style.display = visible ? '' : 'none';
+  };
+  show('chip-merlot',  c.merlot  > 0);
+  show('chip-cabfranc',c.cabfranc > 0);
+  show('chip-morta',   c.morta   > 0);
+  show('chip-vuota',   c.vuota   > 0);
+}
+async function saveNoteGen(){await sb.upsert('config',{chiave:'note_vigneto',valore:document.getElementById('map-note-gen').value});toast('Note salvate');}
+
+
+
+// ══ DIARIO ══
+let diarioData=[],diarioFilter='all';
+async function initDiario(){diarioData=await sb.get('diario','?order=data.desc,id.desc');renderDiario();}
+function catLabel(cat){return{potatura:'✂️ Potatura',trattamento:'💊 Trattamento',fertilizzazione:'🌱 Fertilizzazione',vendemmia:'🍇 Vendemmia',osservazione:'👁 Osservazione',impianto:'🌿 Impianto',altro:'📝 Altro'}[cat]||cat;}
+async function saveDiario(){
+  const titolo=document.getElementById('d-titolo').value.trim();
+  if(!titolo){toast('Inserisci un titolo');return;}
+  const entry={id:Date.now(),data:document.getElementById('d-data').value,cat:document.getElementById('d-cat').value,titolo,note:document.getElementById('d-note').value.trim()};
+  await sb.upsert('diario',entry);
+  document.getElementById('d-titolo').value='';document.getElementById('d-note').value='';
+  closeSheet('sheet-diario');await initDiario();toast('Voce salvata');
+}
+async function delDiario(id){await sb.del('diario',`id=eq.${id}`);await initDiario();toast('Eliminata');}
+function filterDiario(f,el){
+  diarioFilter=f;
+  document.querySelectorAll('.filter-chips .chip').forEach(c=>c.classList.remove('active'));
+  if(el)el.classList.add('active');
+  renderDiario();
+}
+function renderDiario(){
+  const list=document.getElementById('diario-list');
+  const data=diarioFilter==='all'?diarioData:diarioData.filter(e=>e.cat===diarioFilter);
+  if(!data.length){list.innerHTML=`<div class="empty-state"><span class="empty-icon">📓</span>Nessuna voce.</div>`;return;}
+  list.innerHTML=data.map(e=>`
+    <div class="entry-item">
+      <div class="entry-date">${fmtDate(e.data)}</div>
+      <div class="entry-body">
+        <div class="entry-title">${e.titolo}</div>
+        <div class="entry-meta">${catLabel(e.cat)}${e.note?' · '+e.note.substring(0,60):''}</div>
+      </div>
+      <button class="btn btn-danger btn-sm" onclick="delDiario(${e.id})">✕</button>
+    </div>`).join('');
+  document.getElementById('ds-tot').textContent=diarioData.length;
+  document.getElementById('ds-tratt').textContent=diarioData.filter(e=>e.cat==='trattamento').length;
+  document.getElementById('ds-pot').textContent=diarioData.filter(e=>e.cat==='potatura').length;
+}
+
+// ══ PRODUZIONE ══
+let prodData=[];
+async function initProd(){
+  prodData=await sb.get('produzione','?order=data.desc');
+  const cfg=await sb.get('config','?chiave=eq.note_cantina');
+  if(cfg[0])document.getElementById('p-note-cantina').value=cfg[0].valore;
+  renderProd();
+}
+async function saveProd(){
+  const kg=parseFloat(document.getElementById('p-kg').value);
+  if(!kg){toast('Inserisci i kg');return;}
+  const entry={id:Date.now(),anno:document.getElementById('p-anno').value,data:document.getElementById('p-data').value,kg,nviti:parseInt(document.getElementById('p-nviti').value)||0,brix:parseFloat(document.getElementById('p-brix').value)||0,varieta:document.getElementById('p-varieta').value,qualita:parseInt(document.getElementById('p-qual').value)||0,note:document.getElementById('p-note').value.trim()};
+  await sb.upsert('produzione',entry);closeSheet('sheet-prod');await initProd();toast('Vendemmia registrata');
+}
+async function delProd(id){await sb.del('produzione',`id=eq.${id}`);await initProd();}
+function stars(n){return'★'.repeat(n)+'☆'.repeat(5-n);}
+function renderProd(){
+  const list=document.getElementById('prod-list');
+  if(!prodData.length){list.innerHTML=`<div class="empty-state"><span class="empty-icon">🍇</span>Nessuna vendemmia.<br>Anno 3 — prima produzione!</div>`;['p-tot-kg','p-anni','p-media'].forEach(id=>document.getElementById(id).textContent='—');return;}
+  list.innerHTML=`<div class="entry-list">${prodData.map(e=>`<div class="entry-item"><div class="entry-date">${e.anno}<br><small>${fmtDate(e.data)}</small></div><div class="entry-body"><div class="entry-title">${e.varieta} · ${e.kg} kg</div><div class="entry-meta">${e.nviti} viti · ${e.brix}° Brix · ${stars(e.qualita)}</div>${e.note?`<div class="entry-meta" style="font-style:italic;margin-top:2px">${e.note.substring(0,80)}</div>`:''}</div><button class="btn btn-danger btn-sm" onclick="delProd(${e.id})">✕</button></div>`).join('')}</div>`;
+  const totKg=prodData.reduce((a,e)=>a+e.kg,0);
+  const anni=[...new Set(prodData.map(e=>e.anno))].length;
+  const totViti=prodData.reduce((a,e)=>a+e.nviti,0);
+  document.getElementById('p-tot-kg').textContent=totKg.toFixed(1);
+  document.getElementById('p-anni').textContent=anni;
+  document.getElementById('p-media').textContent=totViti?(totKg/totViti).toFixed(2):'—';
+}
+async function saveNoteCantina(){await sb.upsert('config',{chiave:'note_cantina',valore:document.getElementById('p-note-cantina').value});toast('Salvate');}
+
+// ══ CALENDARIO ══
+let calData=[];
+async function initCal(){calData=await sb.get('calendario','?order=data');renderCal();}
+const calPI={alta:'🔴',media:'🟡',bassa:'🟢'};
+const calTI={potatura:'✂️',legatura:'🪢',scacchiatura:'🌿',cimatura:'✂️',trattamento:'💊',fertilizzazione:'🌱',irrigazione:'💧',vendemmia:'🍇',impianto:'🌿',altro:'📝'};
+async function saveCal(){
+  const desc=document.getElementById('cal-desc').value.trim();
+  if(!desc){toast('Inserisci descrizione');return;}
+  const entry={id:Date.now(),data:document.getElementById('cal-data').value,tipo:document.getElementById('cal-tipo').value,desc,prio:document.getElementById('cal-prio').value,stato:document.getElementById('cal-stato').value};
+  await sb.upsert('calendario',entry);document.getElementById('cal-desc').value='';closeSheet('sheet-cal');await initCal();toast('Intervento aggiunto');
+}
+async function delCal(id){await sb.del('calendario',`id=eq.${id}`);await initCal();}
+async function toggleCalStato(id){const e=calData.find(e=>e.id===id);if(!e)return;const ns=e.stato==='completato'?'pianificato':'completato';await sb.patch('calendario',`id=eq.${id}`,{stato:ns});await initCal();}
+function renderCal(){
+  const list=document.getElementById('cal-list');
+  if(!calData.length){list.innerHTML=`<div class="empty-state"><span class="empty-icon">📅</span>Nessun intervento.</div>`;document.getElementById('cal-tot').textContent=0;document.getElementById('cal-done').textContent=0;document.getElementById('cal-pending').textContent=0;return;}
+  const byMonth={};
+  calData.forEach(e=>{const d=new Date(e.data+'T00:00:00');const key=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;const label=d.toLocaleDateString('it-IT',{month:'long',year:'numeric'});if(!byMonth[key])byMonth[key]={label,items:[]};byMonth[key].items.push(e);});
+  list.innerHTML=Object.values(byMonth).map(m=>`<div><div class="cal-month-title">${m.label}</div>${m.items.map(e=>`<div class="cal-event" style="${e.stato==='completato'?'opacity:0.5':''}"><div class="cal-event-date">${fmtDate(e.data)}</div><div class="cal-event-body"><div class="cal-event-title">${calTI[e.tipo]||'📝'} ${e.desc}</div><div class="cal-event-sub">${calPI[e.prio]} ${e.prio} · <span onclick="toggleCalStato(${e.id})" style="text-decoration:underline;cursor:pointer">${e.stato}</span></div></div><span class="cal-event-del" onclick="delCal(${e.id})">✕</span></div>`).join('')}</div>`).join('');
+  document.getElementById('cal-tot').textContent=calData.length;
+  document.getElementById('cal-done').textContent=calData.filter(e=>e.stato==='completato').length;
+  document.getElementById('cal-pending').textContent=calData.filter(e=>e.stato==='pianificato').length;
+}
+
+// ══ FENOLOGIA ══
+const FENO_STADI=[{id:'dormienza',name:'Dormienza',desc:'Pianta in riposo vegetativo',bbch:'00–09'},{id:'gonfiamento',name:'Gonfiamento gemme',desc:'Le gemme si gonfiano',bbch:'01–09'},{id:'germogliamento',name:'Germogliamento',desc:'Comparsa dei primi germogli',bbch:'10–11'},{id:'1foglia',name:'Prima foglia',desc:'Prima foglia dispiegata',bbch:'11'},{id:'3foglie',name:'3–4 foglie',desc:'Tre o quattro foglie distese',bbch:'13–14'},{id:'infiorescenze',name:'Infiorescenze visibili',desc:'Compaiono le infiorescenze',bbch:'53–55'},{id:'fioritura',name:'Fioritura',desc:'Apertura dei fiori',bbch:'60–69'},{id:'allegagione',name:'Allegagione',desc:'Formazione degli acini',bbch:'71'},{id:'invaiatura',name:'Invaiatura',desc:'Inizio maturazione',bbch:'81–83'},{id:'maturazione',name:'Maturazione / Vendemmia',desc:'Uva matura',bbch:'89–99'}];
+let fenoData={};
+async function initFeno(){
+  const rows=await sb.get('fenologia');fenoData={};
+  rows.forEach(r=>fenoData[r.id]={data:r.data,note:r.note,done:r.done});
+  const sel=document.getElementById('feno-sel');
+  if(!sel.options.length||sel.options[0].value===''){FENO_STADI.forEach(s=>{const o=document.createElement('option');o.value=s.id;o.textContent=s.name;sel.appendChild(o);});}
+  renderFeno();
+}
+async function saveFeno(){
+  const id=document.getElementById('feno-sel').value;if(!id){toast('Seleziona fase');return;}
+  const fd={id,data:document.getElementById('feno-data').value,note:document.getElementById('feno-note').value.trim(),done:true};
+  await sb.upsert('fenologia',fd);document.getElementById('feno-note').value='';await initFeno();toast('Fase registrata');
+}
+async function toggleFeno(id){const done=fenoData[id]?!fenoData[id].done:true;await sb.upsert('fenologia',{id,done,data:fenoData[id]?.data||today(),note:fenoData[id]?.note||''});await initFeno();}
+function renderFeno(){
+  const list=document.getElementById('feno-list');
+  const done=FENO_STADI.filter(s=>fenoData[s.id]?.done).length;
+  document.getElementById('feno-progress').textContent=`${done}/10`;
+  list.innerHTML=FENO_STADI.map(s=>{const fd=fenoData[s.id];const isDone=fd?.done;return`<div class="feno-item" onclick="toggleFeno('${s.id}')"><div class="feno-dot ${isDone?'done':''}"></div><div class="feno-card ${isDone?'done':''}"><div class="feno-name">${s.name} <small style="color:var(--text-dim);font-size:10px">BBCH ${s.bbch}</small></div><div class="feno-desc">${s.desc}</div>${isDone&&fd.data?`<div class="feno-date">✓ ${fmtDate(fd.data)}${fd.note?' · '+fd.note.substring(0,50):''}</div>`:''}</div></div>`;}).join('');
+}
+
+// ══ TRATTAMENTI ══
+let trattData=[];
+async function initTratt(){trattData=await sb.get('trattamenti','?order=data.desc');renderTratt();}
+async function saveTratt(){
+  const prod=document.getElementById('t-prod').value.trim();if(!prod){toast('Inserisci prodotto');return;}
+  const entry={id:Date.now(),data:document.getElementById('t-data').value,target:document.getElementById('t-target').value,prod,dose:document.getElementById('t-dose').value,vol:document.getElementById('t-vol').value,metodo:document.getElementById('t-metodo').value,carenza:document.getElementById('t-carenza').value,meteo:document.getElementById('t-meteo').value.trim(),note:document.getElementById('t-note').value.trim()};
+  await sb.upsert('trattamenti',{...entry,prodotto:entry.prod});
+  ['t-prod','t-dose','t-note','t-meteo'].forEach(id=>document.getElementById(id).value='');
+  closeSheet('sheet-tratt');await initTratt();toast('Trattamento salvato');
+}
+async function delTratt(id){await sb.del('trattamenti',`id=eq.${id}`);await initTratt();}
+function renderTratt(){
+  const list=document.getElementById('tratt-list');
+  if(!trattData.length){list.innerHTML=`<div class="empty-state"><span class="empty-icon">💊</span>Nessun trattamento.</div>`;['t-tot-n','t-pero','t-oidio','t-bot'].forEach(id=>document.getElementById(id).textContent=0);return;}
+  list.innerHTML=trattData.map(e=>`
+    <div class="card card-sm" style="margin-bottom:8px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px">
+        <div>
+          <span class="badge badge-blue">${e.target}</span>
+          <span style="font-size:11px;color:var(--text-dim);margin-left:8px">${fmtDate(e.data)}</span>
+        </div>
+        <button class="btn btn-danger btn-sm" onclick="delTratt(${e.id})">✕</button>
+      </div>
+      <div style="font-size:14px;font-weight:600;color:var(--text)">${e.prodotto||e.prod}</div>
+      <div style="font-size:12px;color:var(--text-dim);margin-top:4px">${e.dose?e.dose+' g/hL':'—'} · carenza ${e.carenza?e.carenza+' gg':'—'} · ${e.meteo||'—'}</div>
+      ${e.note?`<div style="font-size:11px;color:var(--text-dim);margin-top:4px;font-style:italic">${e.note}</div>`:''}
+    </div>`).join('');
+  document.getElementById('t-tot-n').textContent=trattData.length;
+  document.getElementById('t-pero').textContent=trattData.filter(e=>e.target==='Peronospora').length;
+  document.getElementById('t-oidio').textContent=trattData.filter(e=>e.target==='Oidio').length;
+  document.getElementById('t-bot').textContent=trattData.filter(e=>e.target==='Botrytis').length;
+}
+
+// ══ INIT ══
+async function init(){
+  await initMap();await initDiario();await initProd();await initCal();await initFeno();await initTratt();
+}
+init();
+</script>
+</body>
+</html>
