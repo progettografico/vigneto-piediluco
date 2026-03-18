@@ -1,16 +1,7 @@
 const CACHE = 'vigneto-v7';
-const BASE = '/vigneto-piediluco/';
-const STATIC = [
-  BASE,
-  BASE + 'index.html',
-];
 
 self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(CACHE)
-      .then(cache => cache.addAll(STATIC))
-      .then(() => self.skipWaiting())
-  );
+  self.skipWaiting();
 });
 
 self.addEventListener('activate', e => {
@@ -24,27 +15,27 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
 
-  // Supabase: sempre network
+  // Supabase: sempre network, mai cache
   if (url.hostname.includes('supabase.co')) {
-    e.respondWith(fetch(e.request).catch(() =>
-      new Response('{"error":"offline"}', { headers: { 'Content-Type': 'application/json' }})
-    ));
+    e.respondWith(fetch(e.request));
     return;
   }
 
-  // Google Fonts: cache first
-  if (url.hostname.includes('fonts.')) {
+  // Navigazione (index.html): network first, fallback cache
+  if (e.request.mode === 'navigate') {
     e.respondWith(
-      caches.match(e.request).then(cached => cached || fetch(e.request).then(res => {
-        const clone = res.clone();
-        caches.open(CACHE).then(c => c.put(e.request, clone));
-        return res;
-      }))
+      fetch(e.request)
+        .then(res => {
+          const clone = res.clone();
+          caches.open(CACHE).then(c => c.put(e.request, clone));
+          return res;
+        })
+        .catch(() => caches.match(e.request))
     );
     return;
   }
 
-  // App shell: cache first
+  // Font e assets: cache first
   e.respondWith(
     caches.match(e.request).then(cached => {
       if (cached) return cached;
