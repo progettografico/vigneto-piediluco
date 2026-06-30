@@ -3,3 +3,6 @@ firmware/.pio/
 # Test host
 firmware/native_test/nav_test
 *.o
+# Python / CAD
+__pycache__/
+*.pyc

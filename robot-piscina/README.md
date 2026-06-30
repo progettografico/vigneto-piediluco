@@ -36,6 +36,7 @@ Piccolo robot **galleggiante** autonomo (con telecomando manuale) che pulisce la
 ```
 robot-piscina/
 ├── docs/        # progettazione, elettronica, BOM, montaggio, sicurezza, schema
+├── cad/         # modelli 3D parametrici + STL stampabili + render (scafo e pontoni)
 ├── firmware/    # progetto PlatformIO per ESP32 (+ UI servita dal robot)
 └── app/         # app di controllo PWA installabile sullo smartphone
 ```

@@ -16,6 +16,8 @@ in ambiente acqua + cloro.
 
 > 📐 Disegni tecnici (spaccati, vista quotata, componenti): cartella
 > [disegni/](disegni/). Render concettuale: [render-robot.png](render-robot.png).
+> 🧩 **Modelli 3D parametrici + STL stampabili** dello scafo: cartella
+> [../cad/](../cad/) (assieme, vista esplosa, pezzi stampabili).
 
 ### 2.1 Scafo: catamarano a doppio pontone
 Due pontoni paralleli garantiscono **stabilità** (difficile da ribaltare) e una
