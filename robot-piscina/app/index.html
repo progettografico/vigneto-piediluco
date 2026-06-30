@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#0b1f2a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Robot Piscina">
+<link rel="manifest" href="./manifest.json">
+<title>Robot Piscina</title>
+<style>
+  :root{ --bg:#0b1f2a; --panel:#10303f; --accent:#27c2c2; --warn:#e2a52b; --bad:#e0533a; --txt:#e8f2f5; --mut:#8fb0bb; }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html,body{margin:0; height:100%; background:var(--bg); color:var(--txt);
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif; overscroll-behavior:none}
+  .wrap{max-width:520px; margin:0 auto; padding:16px; display:flex; flex-direction:column; gap:14px; min-height:100%}
+  header{display:flex; align-items:center; justify-content:space-between}
+  h1{font-size:18px; margin:0; letter-spacing:.5px}
+  .dot{width:10px; height:10px; border-radius:50%; background:var(--bad); display:inline-block; margin-right:6px}
+  .dot.ok{background:#2bd07a}
+  .panel{background:var(--panel); border-radius:14px; padding:14px}
+  .batt{height:18px; background:#06141b; border-radius:9px; overflow:hidden}
+  .batt > i{display:block; height:100%; width:0%; background:linear-gradient(90deg,#2bd07a,#27c2c2); transition:width .4s}
+  .row{display:flex; gap:10px}
+  .row > *{flex:1}
+  .stat{display:flex; justify-content:space-between; font-size:13px; color:var(--mut); margin-top:8px}
+  .stat b{color:var(--txt); font-weight:600}
+  .modes{display:flex; gap:8px}
+  button{font:inherit; color:var(--txt); background:#173d4e; border:1px solid #1f5266; border-radius:12px;
+    padding:12px; font-weight:600; cursor:pointer; transition:.15s}
+  button:active{transform:scale(.97)}
+  .modes button.sel{background:var(--accent); color:#04222a; border-color:var(--accent)}
+  .go{background:#2bd07a; color:#04231a; border:none}
+  .stop{background:var(--bad); color:#2a0a05; border:none}
+  .tog{display:flex; align-items:center; justify-content:space-between}
+  .pill{padding:6px 10px; border-radius:20px; background:#06141b; font-size:12px; color:var(--mut)}
+  .pill.on{background:var(--accent); color:#04222a}
+  .joy{position:relative; width:220px; height:220px; margin:6px auto; border-radius:50%;
+    background:radial-gradient(circle at 50% 50%,#0f2a37,#06141b); border:2px solid #1f5266; touch-action:none}
+  .knob{position:absolute; width:74px; height:74px; border-radius:50%; left:73px; top:73px;
+    background:radial-gradient(circle at 40% 35%,#3ad0d0,#159a9a); box-shadow:0 4px 14px rgba(0,0,0,.5)}
+  .hint{text-align:center; color:var(--mut); font-size:12px}
+  .cfg{display:flex; gap:8px; align-items:center}
+  .cfg input{flex:1; background:#06141b; border:1px solid #1f5266; color:var(--txt); border-radius:10px; padding:10px; font:inherit}
+  footer{margin-top:auto; text-align:center; color:var(--mut); font-size:11px; padding-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🛶 Robot Piscina</h1>
+    <span><span id="dot" class="dot"></span><span id="conn" class="hint">offline</span></span>
+  </header>
+
+  <div class="panel">
+    <div class="batt"><i id="battBar"></i></div>
+    <div class="stat">
+      <span>Batteria <b id="battTxt">--%</b> · <b id="vbatTxt">-- V</b></span>
+      <span>Stato <b id="stateTxt">--</b></span>
+    </div>
+    <div class="stat">
+      <span>Distanza bordo <b id="distTxt">-- mm</b></span>
+      <span>Urti <b id="bumpTxt">--</b></span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="modes">
+      <button data-mode="auto_cover" class="sel">Superficie</button>
+      <button data-mode="auto_edge">Bordo</button>
+      <button data-mode="manual">Manuale</button>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <button id="startBtn" class="go">▶ Avvia</button>
+      <button id="stopBtn" class="stop">■ Stop</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="joy" id="joy"><div class="knob" id="knob"></div></div>
+    <div class="hint">Trascina per il controllo manuale (ha sempre la priorità)</div>
+  </div>
+
+  <div class="panel">
+    <div class="tog" style="margin-bottom:10px">
+      <span>Spazzola bordo</span>
+      <button id="brushBtn" class="pill">OFF</button>
+    </div>
+    <div class="tog">
+      <span>Pompa skimmer</span>
+      <button id="pumpBtn" class="pill">OFF</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="cfg">
+      <input id="hostInput" placeholder="IP del robot (es. 192.168.4.1)">
+      <button id="hostBtn" style="flex:0 0 auto">Connetti</button>
+    </div>
+    <div class="hint" style="margin-top:8px">Collegati alla rete WiFi del robot, poi inserisci il suo IP.</div>
+  </div>
+
+  <footer id="foot">Connessione al robot…</footer>
+</div>
+
+<script>
+let HOST = localStorage.getItem("robotHost") || "192.168.4.1";
+document.getElementById("hostInput").value = HOST;
+
+let ws=null, wsReady=false, selMode="auto_cover";
+let brushOn=false, pumpOn=false;
+
+function send(obj){ if(wsReady) try{ ws.send(JSON.stringify(obj)); }catch(e){} }
+
+function connect(){
+  if(ws){ try{ ws.onclose=null; ws.close(); }catch(e){} }
+  ws = new WebSocket(`ws://${HOST}:81`);
+  ws.onopen = ()=>{ wsReady=true; setConn(true); };
+  ws.onclose = ()=>{ wsReady=false; setConn(false); setTimeout(connect, 1500); };
+  ws.onerror = ()=>{ try{ws.close();}catch(e){} };
+  ws.onmessage = (e)=>{ try{ onTelemetry(JSON.parse(e.data)); }catch(err){} };
+}
+function setConn(ok){
+  document.getElementById("dot").classList.toggle("ok", ok);
+  document.getElementById("conn").textContent = ok ? "online" : "offline";
+  document.getElementById("foot").textContent = ok ? `Connesso a ${HOST}` : "Riconnessione…";
+}
+
+function onTelemetry(t){
+  if("batt" in t){
+    document.getElementById("battBar").style.width = t.batt + "%";
+    document.getElementById("battTxt").textContent = t.batt + "%";
+    document.getElementById("battBar").style.background =
+      t.batt<20 ? "var(--bad)" : (t.batt<40 ? "var(--warn)" : "linear-gradient(90deg,#2bd07a,#27c2c2)");
+  }
+  if("vbat" in t) document.getElementById("vbatTxt").textContent = Number(t.vbat).toFixed(2)+" V";
+  if("state" in t) document.getElementById("stateTxt").textContent = t.state;
+  if("dist" in t) document.getElementById("distTxt").textContent = (t.dist>8000?"—":t.dist+" mm");
+  if("bumpF" in t) document.getElementById("bumpTxt").textContent =
+      ((t.bumpF?"davanti ":"") + (t.bumpS?"lato":"")) || "no";
+}
+
+document.querySelectorAll(".modes button").forEach(b=>{
+  b.onclick = ()=>{
+    document.querySelectorAll(".modes button").forEach(x=>x.classList.remove("sel"));
+    b.classList.add("sel"); selMode = b.dataset.mode;
+  };
+});
+document.getElementById("startBtn").onclick = ()=> send({cmd:"start", mode:selMode});
+document.getElementById("stopBtn").onclick  = ()=> send({cmd:"stop"});
+document.getElementById("brushBtn").onclick = ()=>{
+  brushOn=!brushOn; const el=document.getElementById("brushBtn");
+  el.textContent=brushOn?"ON":"OFF"; el.classList.toggle("on",brushOn); send({cmd:"brush", on:brushOn});
+};
+document.getElementById("pumpBtn").onclick = ()=>{
+  pumpOn=!pumpOn; const el=document.getElementById("pumpBtn");
+  el.textContent=pumpOn?"ON":"OFF"; el.classList.toggle("on",pumpOn); send({cmd:"pump", on:pumpOn});
+};
+document.getElementById("hostBtn").onclick = ()=>{
+  const v=document.getElementById("hostInput").value.trim();
+  if(v){ HOST=v; localStorage.setItem("robotHost", v); connect(); }
+};
+
+// Joystick
+const joy=document.getElementById("joy"), knob=document.getElementById("knob");
+const R=110, KR=37; let dragging=false, jx=0, jy=0;
+function setKnob(dx,dy){
+  const d=Math.hypot(dx,dy), max=R-KR;
+  if(d>max){ dx=dx*max/d; dy=dy*max/d; }
+  knob.style.left=(R-KR+dx)+"px"; knob.style.top=(R-KR+dy)+"px";
+  jx=dx/(R-KR); jy=dy/(R-KR);
+}
+function resetKnob(){ setKnob(0,0); }
+function pos(ev){
+  const r=joy.getBoundingClientRect(), p=ev.touches? ev.touches[0]:ev;
+  return [p.clientX-r.left-R, p.clientY-r.top-R];
+}
+function startDrag(ev){ dragging=true; const[dx,dy]=pos(ev); setKnob(dx,dy); ev.preventDefault(); }
+function moveDrag(ev){ if(!dragging)return; const[dx,dy]=pos(ev); setKnob(dx,dy); ev.preventDefault(); }
+function endDrag(){ if(!dragging)return; dragging=false; resetKnob(); send({cmd:"manual", vx:0, w:0}); }
+joy.addEventListener("touchstart", startDrag, {passive:false});
+joy.addEventListener("touchmove",  moveDrag,  {passive:false});
+joy.addEventListener("touchend",   endDrag);
+joy.addEventListener("mousedown",  startDrag);
+window.addEventListener("mousemove", moveDrag);
+window.addEventListener("mouseup",   endDrag);
+setInterval(()=>{ if(dragging) send({cmd:"manual", vx:-jy, w:jx}); }, 80);
+
+resetKnob();
+connect();
+if("serviceWorker" in navigator){ navigator.serviceWorker.register("./sw.js").catch(()=>{}); }
+</script>
+</body>
+</html>

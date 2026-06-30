@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="640" viewBox="0 0 900 640" font-family="monospace" font-size="13">
+  <style>
+    .box{fill:#fff;stroke:#222;stroke-width:2;rx:6}
+    .pwr{fill:#ffe9e0;stroke:#b03a1a;stroke-width:2}
+    .mcu{fill:#e6f0ff;stroke:#1a4fb0;stroke-width:2}
+    .drv{fill:#e9ffe9;stroke:#1a8a2a;stroke-width:2}
+    .sen{fill:#fff6e0;stroke:#b0801a;stroke-width:2}
+    .t{fill:#111}
+    .lbl{fill:#555;font-size:11px}
+    .w{stroke:#444;stroke-width:1.6;fill:none}
+    .wp{stroke:#b03a1a;stroke-width:2.4;fill:none}
+    .wg{stroke:#1a8a2a;stroke-width:1.8;fill:none}
+    .ttl{font-size:18px;font-weight:bold;fill:#111}
+  </style>
+
+  <text x="20" y="28" class="ttl">Robot Piscina — Schema di cablaggio (ESP32)</text>
+  <text x="20" y="46" class="lbl">Pin = vedi docs/03-bom.md e firmware/src/config.h · Rosso = potenza · Verde = motori · GND comune a tutti</text>
+
+  <!-- Battery -->
+  <rect x="20" y="80" width="150" height="70" class="pwr" rx="6"/>
+  <text x="32" y="108" class="t">2S LiPo 7.4 V</text>
+  <text x="32" y="128" class="lbl">XT30 / JST</text>
+
+  <!-- Switch+fuse -->
+  <rect x="200" y="80" width="150" height="70" class="pwr" rx="6"/>
+  <text x="212" y="105" class="t">Interruttore</text>
+  <text x="212" y="125" class="t">+ Fusibile 3–5A</text>
+
+  <!-- Buck -->
+  <rect x="200" y="190" width="150" height="60" class="pwr" rx="6"/>
+  <text x="212" y="216" class="t">Buck 5 V</text>
+  <text x="212" y="236" class="lbl">MP1584 / LM2596</text>
+
+  <!-- ESP32 -->
+  <rect x="400" y="180" width="200" height="240" class="mcu" rx="6"/>
+  <text x="470" y="205" class="t" font-weight="bold">ESP32</text>
+  <text x="412" y="230" class="lbl">5V/VIN  ◀ buck 5V</text>
+  <text x="412" y="250" class="lbl">GPIO25/26 ▶ Mot.SX</text>
+  <text x="412" y="270" class="lbl">GPIO27/14 ▶ Mot.DX</text>
+  <text x="412" y="290" class="lbl">GPIO16/17 ▶ Spazzola</text>
+  <text x="412" y="310" class="lbl">GPIO18/19 ▶ Pompa</text>
+  <text x="412" y="330" class="lbl">GPIO21/22 ◀▶ I2C ToF</text>
+  <text x="412" y="350" class="lbl">GPIO34/35 ◀ Bump</text>
+  <text x="412" y="370" class="lbl">GPIO33 ◀ VBAT_SENSE</text>
+  <text x="412" y="390" class="lbl">GPIO2 ▶ LED · GPIO4 ▶ Buzz</text>
+  <text x="412" y="410" class="lbl">GND comune</text>
+
+  <!-- DRV1 propulsione -->
+  <rect x="660" y="160" width="210" height="90" class="drv" rx="6"/>
+  <text x="672" y="185" class="t" font-weight="bold">DRV8833 #1 — Propulsione</text>
+  <text x="672" y="207" class="lbl">VM=Vbatt · VCC=3V3 · STBY=3V3</text>
+  <text x="672" y="227" class="lbl">AOUT ▶ Motore SX (elica)</text>
+  <text x="672" y="244" class="lbl">BOUT ▶ Motore DX (elica)</text>
+
+  <!-- DRV2 utenze -->
+  <rect x="660" y="270" width="210" height="90" class="drv" rx="6"/>
+  <text x="672" y="295" class="t" font-weight="bold">DRV8833 #2 — Utenze</text>
+  <text x="672" y="317" class="lbl">VM=Vbatt · VCC=3V3</text>
+  <text x="672" y="337" class="lbl">AOUT ▶ Spazzola laterale</text>
+  <text x="672" y="354" class="lbl">BOUT ▶ Pompa skimmer (opz.)</text>
+
+  <!-- ToF -->
+  <rect x="660" y="380" width="210" height="55" class="sen" rx="6"/>
+  <text x="672" y="403" class="t">VL53L0X (ToF laterale)</text>
+  <text x="672" y="423" class="lbl">SDA=21 SCL=22 VCC=3V3</text>
+
+  <!-- Bumps -->
+  <rect x="660" y="450" width="210" height="55" class="sen" rx="6"/>
+  <text x="672" y="473" class="t">Micro-switch paraurti</text>
+  <text x="672" y="493" class="lbl">GPIO34/35 + pull-up 10k → 3V3</text>
+
+  <!-- Battery divider -->
+  <rect x="400" y="450" width="200" height="80" class="sen" rx="6"/>
+  <text x="412" y="473" class="t">Partitore batteria</text>
+  <text x="412" y="493" class="lbl">Vbatt─[100k]─┬─[33k]─GND</text>
+  <text x="412" y="511" class="lbl">  nodo ▶ GPIO33 (·0.248)</text>
+
+  <!-- Wires power -->
+  <path d="M170 115 H200" class="wp"/>
+  <path d="M275 150 V190" class="wp"/>
+  <path d="M350 220 H400 V228" class="wp"/>
+  <!-- Vbatt to drivers -->
+  <path d="M350 100 H630 V200 H660" class="wp"/>
+  <path d="M630 200 V310 H660" class="wp"/>
+  <text x="540" y="92" class="lbl" fill="#b03a1a">Vbatt → VM driver</text>
+
+  <!-- ESP32 to drivers (motor PWM) -->
+  <path d="M600 250 H660" class="wg"/>
+  <path d="M600 300 H660" class="wg"/>
+  <!-- ESP32 to sensors -->
+  <path d="M600 335 H640 V407 H660" class="w"/>
+  <path d="M600 350 H648 V477 H660" class="w"/>
+  <path d="M600 370 H620 V470 H600" class="w"/>
+
+  <text x="20" y="600" class="lbl">Nota: i motori di spinta sono alimentati a Vbatt tramite il DRV8833, NON dai 5V dell'ESP32. Tutte le masse (GND) devono essere collegate insieme.</text>
+  <text x="20" y="620" class="lbl">GPIO 34/35 sono solo-input: servono resistenze di pull-up esterne da 10k. Vedi docs/02-elettronica.md per i dettagli.</text>
+</svg>
