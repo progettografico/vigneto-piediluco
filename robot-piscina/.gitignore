@@ -1,0 +1,5 @@
+# PlatformIO
+firmware/.pio/
+# Test host
+firmware/native_test/nav_test
+*.o
