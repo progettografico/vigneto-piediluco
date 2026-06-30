@@ -75,6 +75,17 @@
   <text x="412" y="493" class="lbl">Vbatt─[100k]─┬─[33k]─GND</text>
   <text x="412" y="511" class="lbl">  nodo ▶ GPIO33 (·0.248)</text>
 
+  <!-- Solar -->
+  <rect x="20" y="300" width="150" height="55" class="pwr" rx="6"/>
+  <text x="32" y="324" class="t">☀ Pannello solare</text>
+  <text x="32" y="343" class="lbl">6–10 W, sul ponte</text>
+  <rect x="20" y="395" width="150" height="55" class="pwr" rx="6"/>
+  <text x="32" y="419" class="t">Regolatore MPPT</text>
+  <text x="32" y="438" class="lbl">carica 2S LiPo</text>
+  <path d="M95 355 V395" class="wp"/>
+  <path d="M40 395 V150" class="wp"/>
+  <text x="46" y="270" class="lbl" fill="#b03a1a">carica → batteria</text>
+
   <!-- Wires power -->
   <path d="M170 115 H200" class="wp"/>
   <path d="M275 150 V190" class="wp"/>

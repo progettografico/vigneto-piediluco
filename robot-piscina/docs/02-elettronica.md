@@ -7,6 +7,9 @@
 ## 1. Schema a blocchi
 
 ```
+  ☀ Pannello   ┌────────────────────────┐
+  solare 6–10W ▶│ Regolatore carica MPPT  │──▶ ricarica la 2S LiPo (autonomo)
+               └────────────────────────┘
                  ┌──────────────────────────────┐
    2S LiPo ──┬──▶│  Interruttore + Fusibile 3–5A │
   (7.4 V)    │   └───────────────┬───────────────┘
@@ -94,9 +97,33 @@ A 8.4 V → ~2.08 V all'ADC (sotto i 3.3 V, sicuro). Nel firmware:
 - **Conformal coating** su ESP32 e driver per resistere all'umidità/condensa.
 - Porta di **ricarica** esterna con tappo: vedi 04-montaggio e 05-sicurezza.
 
+## 6.bis Ricarica solare ☀
+
+Il **pannello solare** (sul ponte) alimenta un **regolatore di carica MPPT per 2S
+Li-ion/LiPo**, che ricarica autonomamente la batteria:
+
+```
+Pannello (6–10 W) ──[diodo Schottky]──▶ IN  Regolatore MPPT 2S  BAT ──▶ pacco 2S LiPo
+                                              (gestisce tensione/corrente di carica)
+```
+
+- Collega il **+** del pannello all'ingresso del regolatore (con **diodo di blocco**
+  Schottky se non già integrato, per non scaricare la batteria nel pannello al buio),
+  e l'uscita BAT del regolatore **in parallelo al pacco batteria**.
+- **Importante**: il regolatore deve essere del tipo giusto per la **chimica e il numero
+  di celle** della batteria (2S Li-ion/LiPo). Non collegare un pannello direttamente
+  alla batteria senza regolatore.
+- La ricarica è **indipendente dal firmware**: l'ESP32 continua a leggere solo la
+  tensione della batteria. Se vuoi mostrare lo stato "in carica" nell'app, aggiungi un
+  partitore dal pannello a `VSOLAR_SENSE` (GPIO32) e leggine l'ADC (estensione opzionale).
+- Tieni il pannello **ben fissato e sigillato**; orientalo verso l'alto per la massima resa.
+
 ## 7. Consumi e autonomia (stima)
 - Motori di spinta in crociera: ~0.3–0.6 A ciascuno; spazzola/pompa ~0.2–0.4 A.
 - ESP32 (WiFi AP): ~0.1–0.2 A.
 - Totale medio ~1–1.5 A → con LiPo 2S 2200 mAh ≈ **80–120 min** teorici
   (in pratica ~60–90 min con margine e picchi). Tara la soglia di `LOW_BATTERY`
   a **6.6 V** (3.3 V/cella) per non danneggiare il LiPo.
+- ☀ Con il **pannello solare** in pieno sole, parte (o tutta) la corrente di crociera è
+  coperta dal sole: l'autonomia effettiva **aumenta** e la batteria si ricarica nei
+  momenti di pausa, così il robot può lavorare a lungo durante le ore diurne.

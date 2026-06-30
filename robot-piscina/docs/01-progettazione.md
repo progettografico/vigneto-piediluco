@@ -82,6 +82,9 @@ Niente timone, niente parti mobili di sterzo. La logica è in `motors.cpp`
 - **Sensori**: 2–3 micro-switch paraurti, 1 sensore distanza laterale (VL53L0X),
   partitore di tensione per la batteria.
 - **Alimentazione**: 2S LiPo → buck 5 V per la logica; motori direttamente da Vbatt.
+- ☀ **Ricarica solare**: un **pannello solare** sul ponte alimenta un **regolatore di
+  carica MPPT** che mantiene carica la batteria mentre il robot galleggia/lavora di
+  giorno, estendendo l'autonomia. La gestione è autonoma e non richiede firmware.
 
 ## 4. Logica di navigazione (macchina a stati)
 

@@ -26,8 +26,17 @@ Prezzi indicativi (mercato hobbistico EU, IVA inclusa) — variano nel tempo.
 | 17 | **Rete + telaio cestello** | rete a maglia fine + cornice | 1 | 3–6 € | Cestello detriti estraibile. |
 | 18 | **Minuteria** | viti inox, O-ring, silicone, fascette, cavi | — | 5–10 € | Inox per ambiente umido/cloro. |
 | 19 | **Conformal coating** | spray protettivo per PCB | 1 | 6–10 € | Protegge l'elettronica dall'umidità. |
+| 20 | **Pannello solare** | 6 V (o 9 V) **5–10 W**, laminato ETFE/epossidico waterproof | 1 | 12–25 € | Montato sul ponte. Dimensione tipica ~20×17 cm. Più W = ricarica più rapida. |
+| 21 | **Regolatore di carica solare** | modulo **MPPT per Li-ion 2S** (es. basato su CN3722) | 1 | 6–14 € | Carica la batteria dal pannello in autonomia, senza firmware. Deve corrispondere alla chimica/celle della batteria. |
+| 22 | **Diodo di blocco** | Schottky (es. SB560) | 1 | 0.5 € | Evita lo scaricamento della batteria nel pannello al buio (molti regolatori lo includono già). |
 
-**Totale indicativo: ~110–180 €** (la pompa skimmer e la stampa 3D sono opzionali).
+**Totale indicativo: ~130–215 €** (la pompa skimmer e la stampa 3D sono opzionali).
+
+> ☀ **Sistema solare**: il pannello sul ponte alimenta il regolatore di carica, che
+> mantiene carica la batteria mentre il robot galleggia/lavora di giorno. In pieno sole
+> un pannello da 5–10 W **estende sensibilmente l'autonomia** e tiene il pacco in carica
+> nei periodi di inattività. La gestione della carica è **autonoma** (la fa il regolatore):
+> il firmware continua solo a leggere la tensione batteria, senza modifiche.
 
 ## Strumenti necessari
 Saldatore + stagno, multimetro, trapano, cacciaviti, pistola a caldo/silicone,
@@ -49,6 +58,7 @@ Questa tabella è la **fonte di verità** replicata in `firmware/src/config.h`.
 | Lettura batteria | `VBAT_SENSE` | 33 | ADC1, partitore di tensione |
 | LED stato | `LED_STATUS` | 2 | LED onboard |
 | Buzzer (opz.) | `BUZZER` | 4 | Avvisi acustici |
+| Carica solare (opz.) | `VSOLAR_SENSE` | 32 | ADC1, partitore dal pannello — solo se vuoi mostrare "in carica" nell'app (non usato dal firmware base) |
 
 > GPIO **34/35/36/39 sono solo input** (niente pull-up interno → usa resistenze di
 > pull-up esterne da 10 kΩ sui micro-switch). Vedi `docs/02-elettronica.md`.

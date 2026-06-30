@@ -28,8 +28,8 @@ Piccolo robot **galleggiante** autonomo (con telecomando manuale) che pulisce la
 | Propulsione | 2 motori DC + eliche, **differential drive** (sterza variando dx/sx) |
 | Pulizia | Cestello a rete a prua + spazzola rotante laterale (+ pompa skimmer opzionale) |
 | Sensori | Paraurti a micro-switch, sensore distanza laterale (ToF/ultrasuoni), tensione batteria |
-| Alimentazione | Pacco 2S LiPo / 18650 in vano stagno, ~60–90 min |
-| Controllo | L'ESP32 crea un suo WiFi; il telefono apre l'app e comanda via WebSocket |
+| Alimentazione | Pacco 2S LiPo / 18650 in vano stagno (~60–90 min) **+ pannello solare** sul ponte con regolatore di carica MPPT |
+| Controllo | L'ESP32 crea un suo **WiFi**; il telefono apre l'app e comanda via WebSocket |
 
 ## Struttura del progetto
 
