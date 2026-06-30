@@ -75,6 +75,10 @@ pio run -t uploadfs     # carica la UI (cartella data/) nella memoria LittleFS
 | [03-bom.md](docs/03-bom.md) | Lista componenti con costi indicativi e alternative |
 | [04-montaggio.md](docs/04-montaggio.md) | Istruzioni passo-passo + collaudo (bring-up) |
 | [05-sicurezza.md](docs/05-sicurezza.md) | Sicurezza acqua/elettricità/LiPo — **da leggere** |
+| [disegni/](docs/disegni/) | Disegni tecnici: spaccati (sezione laterale/trasversale), vista quotata, componenti |
+
+Vedi anche il **render concettuale** ([docs/render-robot.png](docs/render-robot.png)) e lo
+**schema di cablaggio** ([docs/wiring-diagram.svg](docs/wiring-diagram.svg)).
 
 ## Stato e limiti (fuori scope per ora)
 Pulizia del **fondo/pareti in profondità**, ritorno autonomo a una base di ricarica,

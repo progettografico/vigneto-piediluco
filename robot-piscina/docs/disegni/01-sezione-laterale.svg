@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="640" viewBox="0 0 1000 640" font-family="system-ui,Segoe UI,Roboto,sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#b03a1a"/>
+    </marker>
+    <marker id="arrS" markerWidth="9" markerHeight="9" refX="0" refY="3" orient="auto">
+      <path d="M7,0 L0,3 L7,6 Z" fill="#b03a1a"/>
+    </marker>
+    <pattern id="hatch" width="8" height="8" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#7fb6cf" stroke-width="1.4"/>
+    </pattern>
+    <pattern id="foam" width="7" height="7" patternUnits="userSpaceOnUse">
+      <rect width="7" height="7" fill="#fff6e0"/><circle cx="3.5" cy="3.5" r="1.1" fill="#e2c98a"/>
+    </pattern>
+    <linearGradient id="pan" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#28507f"/><stop offset="1" stop-color="#0c1f3a"/></linearGradient>
+    <style>
+      .ln{stroke:#1b2b33;stroke-width:2;fill:none}
+      .fl{stroke:#1b2b33;stroke-width:2}
+      .dim{stroke:#b03a1a;stroke-width:1.2;fill:none}
+      .dt{fill:#b03a1a;font-size:13px}
+      .t{fill:#0c2230;font-size:14px}
+      .tb{fill:#0c2230;font-size:14px;font-weight:600}
+      .cap{fill:#5a6b73;font-size:12px}
+      .lead{stroke:#5a6b73;stroke-width:1;stroke-dasharray:3 3;fill:none}
+    </style>
+  </defs>
+
+  <rect width="1000" height="640" fill="#ffffff"/>
+  <text x="30" y="40" class="tb" font-size="20">Robot Piscina — Sezione laterale (spaccato longitudinale)</text>
+  <text x="30" y="62" class="cap">Vista di fianco, scafo tagliato · prua a sinistra · quote indicative in cm</text>
+
+  <!-- Acqua + linea di galleggiamento -->
+  <rect x="60" y="360" width="880" height="200" fill="#dff1f7"/>
+  <line x1="60" y1="360" x2="940" y2="360" stroke="#2a9ec4" stroke-width="2"/>
+  <text x="828" y="353" fill="#1f86a8" font-size="13">linea di galleggiamento</text>
+  <g stroke="#9ad3e6" stroke-width="2" fill="none" opacity="0.8">
+    <path d="M70 392 q20 -8 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0"/>
+  </g>
+
+  <!-- Scafo / pontone (profilo laterale, prua tappered) -->
+  <path d="M250 300
+           L760 300
+           Q800 300 800 340
+           L800 410
+           Q800 440 770 440
+           L250 440
+           Q180 440 160 380
+           Q180 320 250 300 Z" fill="#ffe7b0" stroke="#b9831a" stroke-width="2.5"/>
+  <!-- parte immersa (sotto galleggiamento) -->
+  <clipPath id="below"><rect x="120" y="360" width="720" height="120"/></clipPath>
+  <path d="M250 300 L760 300 Q800 300 800 340 L800 410 Q800 440 770 440 L250 440 Q180 440 160 380 Q180 320 250 300 Z" fill="url(#hatch)" clip-path="url(#below)" opacity="0.6"/>
+
+  <!-- Ponte / coperchio piano -->
+  <rect x="250" y="288" width="430" height="16" rx="4" fill="#cfd8dd" stroke="#8b969c" stroke-width="2"/>
+
+  <!-- Pannello solare (board piatto sul ponte) -->
+  <g>
+    <rect x="300" y="262" width="330" height="22" rx="3" fill="url(#pan)" stroke="#0a1730" stroke-width="2"/>
+    <g stroke="#3d6ea5" stroke-width="1.5"><line x1="382" y1="262" x2="382" y2="284"/><line x1="465" y1="262" x2="465" y2="284"/><line x1="548" y1="262" x2="548" y2="284"/></g>
+    <line x1="300" y1="284" x2="300" y2="288" class="ln"/><line x1="630" y1="284" x2="630" y2="288" class="ln"/>
+  </g>
+
+  <!-- Vano elettronica stagno (cut-open) nella baia centrale -->
+  <rect x="370" y="305" width="230" height="120" rx="6" fill="#f7fafb" stroke="#1b2b33" stroke-width="2.2"/>
+  <!-- Batteria in basso (baricentro basso) -->
+  <rect x="386" y="378" width="198" height="36" rx="4" fill="#cfe6d2" stroke="#3a7d4a" stroke-width="1.8"/>
+  <text x="402" y="401" class="t">Batteria 2S LiPo (in basso = baricentro basso)</text>
+  <!-- Schede -->
+  <rect x="386" y="318" width="92" height="24" rx="3" fill="#dfe9f5" stroke="#3667a3" stroke-width="1.5"/>
+  <text x="394" y="334" class="t" font-size="12">ESP32</text>
+  <rect x="486" y="318" width="98" height="24" rx="3" fill="#dfe9f5" stroke="#3667a3" stroke-width="1.5"/>
+  <text x="494" y="334" class="t" font-size="12">2×DRV8833</text>
+  <rect x="386" y="348" width="92" height="22" rx="3" fill="#dfe9f5" stroke="#3667a3" stroke-width="1.5"/>
+  <text x="394" y="363" class="t" font-size="12">buck 5V</text>
+  <rect x="486" y="348" width="98" height="22" rx="3" fill="#f5e6c8" stroke="#b08a2a" stroke-width="1.5"/>
+  <text x="494" y="363" class="t" font-size="12">regol. MPPT</text>
+
+  <!-- Cestello skimmer a prua (mesh) -->
+  <path d="M250 360 L250 440 L196 420 L196 372 Z" fill="url(#hatch)" stroke="#0c3346" stroke-width="2"/>
+  <path d="M250 330 L250 360" class="ln"/>
+
+  <!-- Spazzola a pelo d'acqua (lato prua) -->
+  <circle cx="250" cy="360" r="16" fill="#cfd8dd" stroke="#8b969c" stroke-width="2"/>
+  <g stroke="#9aa6ad" stroke-width="1.5"><line x1="250" y1="346" x2="250" y2="374"/><line x1="236" y1="360" x2="264" y2="360"/></g>
+
+  <!-- Elica a poppa (sotto galleggiamento) -->
+  <g transform="translate(816,400)">
+    <line x1="-16" y1="0" x2="0" y2="0" class="fl" stroke-width="3"/>
+    <ellipse cx="6" cy="0" rx="6" ry="20" fill="#8fa1aa" stroke="#5d6b72" stroke-width="1.5"/>
+    <circle cx="0" cy="0" r="4" fill="#34424a"/>
+  </g>
+
+  <!-- Etichette con leader -->
+  <line x1="465" y1="262" x2="465" y2="150" class="lead"/>
+  <rect x="372" y="124" width="240" height="26" rx="5" fill="#eef6f9" stroke="#1b2b33"/>
+  <text x="384" y="142" class="tb">☀ Pannello solare (sul ponte)</text>
+
+  <line x1="485" y1="305" x2="700" y2="180" class="lead"/>
+  <rect x="660" y="158" width="270" height="26" rx="5" fill="#eef6f9" stroke="#1b2b33"/>
+  <text x="672" y="176" class="tb">Vano elettronica stagno (IP65)</text>
+
+  <line x1="223" y1="400" x2="120" y2="470" class="lead"/>
+  <rect x="30" y="472" width="210" height="26" rx="5" fill="#eef6f9" stroke="#1b2b33"/>
+  <text x="42" y="490" class="tb">Cestello a rete (skimmer)</text>
+
+  <line x1="250" y1="376" x2="250" y2="520" class="lead"/>
+  <rect x="150" y="522" width="200" height="26" rx="5" fill="#eef6f9" stroke="#1b2b33"/>
+  <text x="162" y="540" class="tb">Spazzola (alla waterline)</text>
+
+  <line x1="822" y1="400" x2="860" y2="470" class="lead"/>
+  <rect x="770" y="472" width="200" height="26" rx="5" fill="#eef6f9" stroke="#1b2b33"/>
+  <text x="782" y="490" class="tb">Elica (sotto la superficie)</text>
+
+  <!-- Quote -->
+  <!-- lunghezza totale -->
+  <line x1="160" y1="588" x2="816" y2="588" class="dim" marker-start="url(#arrS)" marker-end="url(#arr)"/>
+  <line x1="160" y1="450" x2="160" y2="596" class="dim"/>
+  <line x1="816" y1="450" x2="816" y2="596" class="dim"/>
+  <rect x="455" y="576" width="70" height="22" fill="#ffffff"/>
+  <text x="468" y="592" class="dt">~ 45 cm</text>
+
+  <!-- bordo libero (freeboard) -->
+  <line x1="880" y1="262" x2="880" y2="360" class="dim" marker-start="url(#arrS)" marker-end="url(#arr)"/>
+  <text x="888" y="315" class="dt">bordo</text>
+  <text x="888" y="330" class="dt">libero</text>
+
+  <!-- pescaggio -->
+  <line x1="120" y1="360" x2="120" y2="440" class="dim" marker-start="url(#arrS)" marker-end="url(#arr)"/>
+  <text x="70" y="404" class="dt">pescaggio</text>
+</svg>

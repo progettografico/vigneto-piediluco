@@ -14,6 +14,9 @@ in ambiente acqua + cloro.
 
 ## 2. Architettura meccanica
 
+> 📐 Disegni tecnici (spaccati, vista quotata, componenti): cartella
+> [disegni/](disegni/). Render concettuale: [render-robot.png](render-robot.png).
+
 ### 2.1 Scafo: catamarano a doppio pontone
 Due pontoni paralleli garantiscono **stabilità** (difficile da ribaltare) e una
 **baia centrale** dove montare elettronica e cestello.

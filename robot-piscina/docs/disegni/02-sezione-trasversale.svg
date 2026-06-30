@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="640" viewBox="0 0 900 640" font-family="system-ui,Segoe UI,Roboto,sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#b03a1a"/></marker>
+    <marker id="arrS" markerWidth="9" markerHeight="9" refX="0" refY="3" orient="auto"><path d="M7,0 L0,3 L7,6 Z" fill="#b03a1a"/></marker>
+    <pattern id="hatch" width="8" height="8" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><line x1="0" y1="0" x2="0" y2="8" stroke="#7fb6cf" stroke-width="1.4"/></pattern>
+    <pattern id="foam" width="9" height="9" patternUnits="userSpaceOnUse"><rect width="9" height="9" fill="#fff3d6"/><circle cx="4.5" cy="4.5" r="1.4" fill="#e2c98a"/></pattern>
+    <linearGradient id="pan" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#28507f"/><stop offset="1" stop-color="#0c1f3a"/></linearGradient>
+    <style>
+      .ln{stroke:#1b2b33;stroke-width:2;fill:none}
+      .dim{stroke:#b03a1a;stroke-width:1.2;fill:none}
+      .dt{fill:#b03a1a;font-size:13px}
+      .t{fill:#0c2230;font-size:13px}
+      .tb{fill:#0c2230;font-size:14px;font-weight:600}
+      .cap{fill:#5a6b73;font-size:12px}
+      .lead{stroke:#5a6b73;stroke-width:1;stroke-dasharray:3 3;fill:none}
+    </style>
+  </defs>
+
+  <rect width="900" height="640" fill="#ffffff"/>
+  <text x="30" y="40" class="tb" font-size="20">Robot Piscina — Sezione trasversale (spaccato sul baglio)</text>
+  <text x="30" y="62" class="cap">Vista frontale, tagliata a metà · si vedono i due pontoni e il vano centrale</text>
+
+  <!-- Acqua + waterline -->
+  <rect x="60" y="392" width="780" height="170" fill="#dff1f7"/>
+  <line x1="60" y1="392" x2="840" y2="392" stroke="#2a9ec4" stroke-width="2"/>
+  <text x="350" y="385" fill="#1f86a8" font-size="13">linea di galleggiamento</text>
+
+  <!-- Pontoni (sezione tubo Ø75) -->
+  <g>
+    <!-- sinistro -->
+    <circle cx="250" cy="372" r="58" fill="url(#foam)" stroke="#b9831a" stroke-width="3"/>
+    <clipPath id="bl"><rect x="180" y="392" width="140" height="80"/></clipPath>
+    <circle cx="250" cy="372" r="58" fill="url(#hatch)" clip-path="url(#bl)" opacity="0.7"/>
+    <!-- destro -->
+    <circle cx="610" cy="372" r="58" fill="url(#foam)" stroke="#b9831a" stroke-width="3"/>
+    <clipPath id="br"><rect x="540" y="392" width="140" height="80"/></clipPath>
+    <circle cx="610" cy="372" r="58" fill="url(#hatch)" clip-path="url(#br)" opacity="0.7"/>
+  </g>
+
+  <!-- Ponte / traversa che collega i pontoni -->
+  <rect x="230" y="300" width="400" height="20" rx="4" fill="#cfd8dd" stroke="#8b969c" stroke-width="2"/>
+  <!-- montanti -->
+  <line x1="250" y1="320" x2="250" y2="340" class="ln"/>
+  <line x1="610" y1="320" x2="610" y2="340" class="ln"/>
+
+  <!-- Vano elettronica al centro (cut) -->
+  <rect x="350" y="232" width="160" height="70" rx="6" fill="#f7fafb" stroke="#1b2b33" stroke-width="2.2"/>
+  <rect x="362" y="270" width="136" height="24" rx="3" fill="#cfe6d2" stroke="#3a7d4a" stroke-width="1.6"/>
+  <text x="376" y="287" class="t">Batteria 2S</text>
+  <rect x="362" y="242" width="62" height="22" rx="3" fill="#dfe9f5" stroke="#3667a3" stroke-width="1.4"/>
+  <text x="370" y="257" class="t" font-size="11">ESP32</text>
+  <rect x="436" y="242" width="62" height="22" rx="3" fill="#dfe9f5" stroke="#3667a3" stroke-width="1.4"/>
+  <text x="442" y="257" class="t" font-size="11">driver</text>
+
+  <!-- Pannello solare sopra (spanning) -->
+  <rect x="300" y="208" width="260" height="20" rx="3" fill="url(#pan)" stroke="#0a1730" stroke-width="2"/>
+  <g stroke="#3d6ea5" stroke-width="1.4"><line x1="365" y1="208" x2="365" y2="228"/><line x1="430" y1="208" x2="430" y2="228"/><line x1="495" y1="208" x2="495" y2="228"/></g>
+
+  <!-- Spazzola sul fianco destro, alla waterline -->
+  <g>
+    <circle cx="700" cy="392" r="20" fill="#cfd8dd" stroke="#8b969c" stroke-width="2"/>
+    <g stroke="#9aa6ad" stroke-width="1.6"><line x1="700" y1="372" x2="700" y2="412"/><line x1="680" y1="392" x2="720" y2="392"/><line x1="686" y1="378" x2="714" y2="406"/><line x1="686" y1="406" x2="714" y2="378"/></g>
+    <line x1="668" y1="372" x2="652" y2="360" class="ln"/>
+  </g>
+
+  <!-- Etichette -->
+  <line x1="430" y1="208" x2="430" y2="140" class="lead"/>
+  <rect x="320" y="114" width="220" height="26" rx="5" fill="#eef6f9" stroke="#1b2b33"/>
+  <text x="332" y="132" class="tb">☀ Pannello solare</text>
+
+  <line x1="500" y1="250" x2="690" y2="180" class="lead"/>
+  <rect x="648" y="158" width="200" height="26" rx="5" fill="#eef6f9" stroke="#1b2b33"/>
+  <text x="660" y="176" class="tb">Vano elettronica</text>
+
+  <line x1="205" y1="372" x2="120" y2="300" class="lead"/>
+  <rect x="20" y="276" width="200" height="26" rx="5" fill="#eef6f9" stroke="#1b2b33"/>
+  <text x="32" y="294" class="tb">Pontone (tubo + schiuma)</text>
+
+  <line x1="720" y1="392" x2="800" y2="460" class="lead"/>
+  <rect x="700" y="462" width="180" height="26" rx="5" fill="#eef6f9" stroke="#1b2b33"/>
+  <text x="712" y="480" class="tb">Spazzola bordo</text>
+
+  <!-- baia centrale (acqua) -->
+  <line x1="430" y1="392" x2="430" y2="430" class="lead"/>
+  <rect x="330" y="432" width="200" height="26" rx="5" fill="#eef6f9" stroke="#1b2b33"/>
+  <text x="342" y="450" class="tb">Baia centrale (aperta)</text>
+
+  <!-- Quote -->
+  <!-- larghezza (beam) tra bordi esterni pontoni -->
+  <line x1="192" y1="560" x2="668" y2="560" class="dim" marker-start="url(#arrS)" marker-end="url(#arr)"/>
+  <line x1="192" y1="430" x2="192" y2="568" class="dim"/>
+  <line x1="668" y1="430" x2="668" y2="568" class="dim"/>
+  <rect x="392" y="548" width="80" height="22" fill="#ffffff"/>
+  <text x="404" y="564" class="dt">~ 30 cm</text>
+
+  <!-- diametro pontone -->
+  <line x1="135" y1="314" x2="135" y2="430" class="dim" marker-start="url(#arrS)" marker-end="url(#arr)"/>
+  <text x="78" y="376" class="dt">Ø 7.5 cm</text>
+
+  <!-- immersione -->
+  <line x1="610" y1="392" x2="610" y2="430" class="dim" marker-end="url(#arr)"/>
+  <text x="556" y="418" class="dt">immersione</text>
+</svg>

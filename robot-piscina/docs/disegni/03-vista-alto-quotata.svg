@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="620" viewBox="0 0 1000 620" font-family="system-ui,Segoe UI,Roboto,sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#b03a1a"/></marker>
+    <marker id="arrS" markerWidth="9" markerHeight="9" refX="0" refY="3" orient="auto"><path d="M7,0 L0,3 L7,6 Z" fill="#b03a1a"/></marker>
+    <pattern id="mesh" width="10" height="10" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><line x1="0" y1="0" x2="0" y2="10" stroke="#0c3346" stroke-width="1.2" stroke-opacity="0.55"/></pattern>
+    <linearGradient id="pan" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#28507f"/><stop offset="1" stop-color="#0c1f3a"/></linearGradient>
+    <style>
+      .ln{stroke:#1b2b33;stroke-width:2.4;fill:none}
+      .dim{stroke:#b03a1a;stroke-width:1.2;fill:none}
+      .dt{fill:#b03a1a;font-size:13px}
+      .tb{fill:#0c2230;font-size:14px;font-weight:600}
+      .cap{fill:#5a6b73;font-size:12px}
+      .lead{stroke:#5a6b73;stroke-width:1;stroke-dasharray:3 3;fill:none}
+    </style>
+  </defs>
+
+  <rect width="1000" height="620" fill="#ffffff"/>
+  <text x="30" y="38" class="tb" font-size="20">Robot Piscina — Vista dall'alto (quotata)</text>
+  <text x="30" y="60" class="cap">Pianta · prua a sinistra · quote indicative in cm</text>
+
+  <!-- Pontoni (giallo) -->
+  <path d="M250 150 L690 150 Q720 150 720 175 L720 195 Q720 215 690 215 L250 215 Q175 215 150 182 Q175 150 250 150 Z" fill="#ffe7b0" stroke="#b9831a" stroke-width="2.5"/>
+  <path d="M250 360 L690 360 Q720 360 720 385 L720 405 Q720 425 690 425 L250 425 Q175 425 150 392 Q175 360 250 360 Z" fill="#ffe7b0" stroke="#b9831a" stroke-width="2.5"/>
+
+  <!-- Telaio centrale -->
+  <rect x="300" y="205" width="340" height="165" rx="10" fill="#eef3f5" stroke="#9aa6ad" stroke-width="2"/>
+
+  <!-- Pannello solare -->
+  <rect x="330" y="218" width="280" height="140" rx="4" fill="url(#pan)" stroke="#0a1730" stroke-width="2"/>
+  <g stroke="#3d6ea5" stroke-width="1.4">
+    <line x1="330" y1="253" x2="610" y2="253"/><line x1="330" y1="288" x2="610" y2="288"/><line x1="330" y1="323" x2="610" y2="323"/>
+    <line x1="400" y1="218" x2="400" y2="358"/><line x1="470" y1="218" x2="470" y2="358"/><line x1="540" y1="218" x2="540" y2="358"/>
+  </g>
+
+  <!-- Cestello a rete (prua) -->
+  <path d="M250 168 L250 407 L165 380 L165 195 Z" fill="url(#mesh)" stroke="#0c3346" stroke-width="2.4"/>
+
+  <!-- Spazzola lungo il fianco inferiore -->
+  <rect x="320" y="430" width="240" height="16" rx="8" fill="#cfd8dd" stroke="#8b969c" stroke-width="2"/>
+  <g stroke="#9aa6ad" stroke-width="1.5">
+    <line x1="340" y1="430" x2="340" y2="446"/><line x1="360" y1="430" x2="360" y2="446"/><line x1="380" y1="430" x2="380" y2="446"/>
+    <line x1="400" y1="430" x2="400" y2="446"/><line x1="420" y1="430" x2="420" y2="446"/><line x1="440" y1="430" x2="440" y2="446"/>
+    <line x1="460" y1="430" x2="460" y2="446"/><line x1="480" y1="430" x2="480" y2="446"/><line x1="500" y1="430" x2="500" y2="446"/>
+    <line x1="520" y1="430" x2="520" y2="446"/><line x1="540" y1="430" x2="540" y2="446"/>
+  </g>
+
+  <!-- Eliche a poppa -->
+  <g transform="translate(742,182)"><circle r="16" fill="#34424a" stroke="#1b2429" stroke-width="2"/><g fill="#8fa1aa"><ellipse cx="0" cy="-9" rx="4.5" ry="9"/><ellipse cx="8" cy="5" rx="4.5" ry="9" transform="rotate(120)"/><ellipse cx="-8" cy="5" rx="4.5" ry="9" transform="rotate(240)"/></g><circle r="3.5" fill="#dfe7ea"/></g>
+  <g transform="translate(742,392)"><circle r="16" fill="#34424a" stroke="#1b2429" stroke-width="2"/><g fill="#8fa1aa"><ellipse cx="0" cy="-9" rx="4.5" ry="9"/><ellipse cx="8" cy="5" rx="4.5" ry="9" transform="rotate(120)"/><ellipse cx="-8" cy="5" rx="4.5" ry="9" transform="rotate(240)"/></g><circle r="3.5" fill="#dfe7ea"/></g>
+
+  <!-- Etichette -->
+  <line x1="470" y1="218" x2="470" y2="120" class="lead"/>
+  <rect x="372" y="96" width="200" height="24" rx="5" fill="#eef6f9" stroke="#1b2b33"/>
+  <text x="384" y="113" class="tb">☀ Pannello solare</text>
+
+  <line x1="200" y1="290" x2="120" y2="120" class="lead"/>
+  <rect x="40" y="96" width="200" height="24" rx="5" fill="#eef6f9" stroke="#1b2b33"/>
+  <text x="52" y="113" class="tb">Cestello skimmer</text>
+
+  <line x1="440" y1="446" x2="440" y2="500" class="lead"/>
+  <rect x="340" y="500" width="200" height="24" rx="5" fill="#eef6f9" stroke="#1b2b33"/>
+  <text x="352" y="517" class="tb">Spazzola bordo</text>
+
+  <line x1="758" y1="182" x2="850" y2="150" class="lead"/>
+  <rect x="800" y="128" width="170" height="24" rx="5" fill="#eef6f9" stroke="#1b2b33"/>
+  <text x="812" y="145" class="tb">Eliche (×2)</text>
+
+  <!-- Quote -->
+  <!-- lunghezza -->
+  <line x1="165" y1="556" x2="742" y2="556" class="dim" marker-start="url(#arrS)" marker-end="url(#arr)"/>
+  <line x1="165" y1="430" x2="165" y2="564" class="dim"/>
+  <line x1="742" y1="430" x2="742" y2="564" class="dim"/>
+  <rect x="416" y="544" width="76" height="22" fill="#ffffff"/>
+  <text x="428" y="560" class="dt">~ 45 cm</text>
+
+  <!-- larghezza -->
+  <line x1="100" y1="150" x2="100" y2="425" class="dim" marker-start="url(#arrS)" marker-end="url(#arr)"/>
+  <text x="44" y="295" class="dt">~ 30 cm</text>
+
+  <!-- interasse pontoni -->
+  <line x1="780" y1="182" x2="780" y2="392" class="dim" marker-start="url(#arrS)" marker-end="url(#arr)"/>
+  <line x1="722" y1="182" x2="788" y2="182" class="dim"/>
+  <line x1="722" y1="392" x2="788" y2="392" class="dim"/>
+  <rect x="792" y="276" width="120" height="40" fill="#ffffff"/>
+  <text x="796" y="292" class="dt">interasse</text>
+  <text x="796" y="308" class="dt">~ 21 cm</text>
+
+  <!-- pannello dim -->
+  <text x="406" y="292" fill="#dfe9f5" font-size="13" font-weight="600">≈ 20 × 17 cm</text>
+</svg>
